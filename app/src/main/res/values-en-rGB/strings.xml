@@ -1,8 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">2335GroupProject</string>
     <string name="hello_message">Hello</string>
     <string name="check_weather">Check the weather by city</string>
-    <string name="saved_forecasts">My forecasts</string>
     <string name="search_hint">Search city</string>
     <string name="search_btn">Search</string>
+    <string name="saved_forecasts">My forecasts</string>
 </resources>
