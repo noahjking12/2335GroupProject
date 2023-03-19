@@ -1,19 +1,23 @@
 package algonquin.cst2335.a2335groupproject;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.snackbar.Snackbar;
 
 
 import java.io.File;
@@ -26,6 +30,8 @@ import algonquin.cst2335.a2335groupproject.databinding.ImageListBinding;
 public class SecondActivity extends AppCompatActivity {
 
     private  ActivitySecondBinding binding2;
+
+    private ImageListBinding imageListBinding;
 
     private ArrayList<CatList> imageUrlList;
 
@@ -60,8 +66,18 @@ public class SecondActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = myPreferences.edit();
             editor.putString("Width", widthToSaved);
             editor.putString("Height", heightToSaved);
-
             editor.apply();
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Confirmation")
+                    .setMessage("Do you want to save the text that you entered?")
+                    .setPositiveButton("Save", (dialog, option)-> {
+                        Snackbar.make(binding2.getRoot(),"You've save the text successfully!", Snackbar.LENGTH_LONG).show();
+                    })
+                    .setNegativeButton("No", (dialog, option)->{
+                        // do nothing
+                    })
+                    .show();
 
         });
 
@@ -82,19 +98,21 @@ public class SecondActivity extends AppCompatActivity {
                 String height = binding2.heightEdit.getText().toString();
                 String url = "https://placekitten.com/"+ width + "/" + height;
                 String catUrl = url;
-                CatList clObj = new CatList(catUrl);
+                CatList clObj = new CatList(catUrl, width, height);
                 imageUrlList.add(clObj);
                 myAdapter.notifyItemInserted(imageUrlList.size() - 1);
                 //binding2.widthEdit.setText("");
                 //binding2.heightEdit.setText("");
             }
         });
+
+
         binding2.recyclerView.setAdapter(myAdapter = new RecyclerView.Adapter<myCatHolder>() {
             @NonNull
             @Override
             public myCatHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-                ImageListBinding imageListBinding = ImageListBinding.inflate(getLayoutInflater(), parent, false);
+                imageListBinding = ImageListBinding.inflate(getLayoutInflater(), parent, false);
 
                 return new myCatHolder(imageListBinding.getRoot());
             }
@@ -106,6 +124,14 @@ public class SecondActivity extends AppCompatActivity {
                 Glide.with(holder.itemView.getContext())
                         .load(imageOnRow.getCatUrl())
                         .into(holder.catImageList);
+
+                holder.catImageList.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String toastMessage = "The width of this image is " + imageOnRow.getWidth() + ", and the height is " + imageOnRow.getHeight();
+                        Toast.makeText(v.getContext(), toastMessage, Toast.LENGTH_LONG).show();
+                    }
+                });
 
             }
 
