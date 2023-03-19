@@ -1,13 +1,8 @@
 package algonquin.cst2335.a2335groupproject;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 
 
@@ -34,6 +29,7 @@ public class SecondActivity extends AppCompatActivity {
 
                 String url = "https://placekitten.com/" + width + "/" + height;
 
+                // using Glide to load image into ImageView
                 Glide.with(SecondActivity.this)
                         .load(url)
                         .into(binding2.catImageView);
