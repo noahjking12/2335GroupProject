@@ -12,7 +12,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="country"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/forecastDeleteBtn"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -53,5 +53,17 @@
         app:layout_constraintEnd_toEndOf="@+id/forecastDate"
         app:layout_constraintTop_toBottomOf="@+id/forecastDate"
         tools:srcCompat="@tools:sample/avatars" />
+
+    <Button
+        android:id="@+id/forecastDeleteBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/delete_btn"
+        android:textSize="14sp"
+        app:backgroundTint="#FF0000"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

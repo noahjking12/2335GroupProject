@@ -6,4 +6,9 @@
     <string name="search_hint">Search city</string>
     <string name="search_btn">Search</string>
     <string name="saved_forecasts">My forecasts</string>
+    <string name="delete_btn">Delete</string>
+    <string name="save_btn">Save</string>
+    <string name="humidity">Humidity</string>
+    <string name="feels_like">Feels like</string>
+    <string name="wind">Wind speed</string>
 </resources>

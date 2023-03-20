@@ -1,6 +1,7 @@
 package algonquin.cst2335.a2335groupproject.ui;
 
 import androidx.annotation.NonNull;
+import android.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,8 +13,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
@@ -33,7 +37,7 @@ public class WeatherActivity extends AppCompatActivity {
     ActivityWeatherBinding binding;
 
     /** Adapter for saved forecast recycler view */
-    private RecyclerView.Adapter myAdapter;
+    RecyclerView.Adapter myAdapter;
 
     /** ViewModel for saving WeatherActivity's data */
     WeatherActivityViewModel weatherModel;
@@ -73,11 +77,10 @@ public class WeatherActivity extends AppCompatActivity {
             public void onBindViewHolder(@NonNull MyRowHolder holder, int position) {
                 // Set values for objects in saved forecast row
                 Forecast savedForecast = savedForecasts.get(position);
-                holder.forecastCountry.setText(savedForecast.getForecastCountry());
-                holder.forecastCity.setText(savedForecast.getForecastCity());
-                holder.forecastDate.setText(savedForecast.getForecastDate());
-                holder.forecastTemp.setText(Integer.toString(savedForecast.getForecastTemp()));
-//                holder.forecastIcon.setText(""); ** IMPLEMENT LATER
+                holder.forecastCountry.setText(savedForecast.getCountry());
+                holder.forecastCity.setText(savedForecast.getCity());
+                holder.forecastDate.setText(savedForecast.getDate());
+                holder.forecastTemp.setText(Integer.toString(savedForecast.getTemperature()));
             }
 
             @Override
@@ -115,9 +118,9 @@ public class WeatherActivity extends AppCompatActivity {
         // *****************************************************
         // * TEST DATA FOR SAVED FORECASTS
 
-        savedForecasts.add(new Forecast("canada", "ottawa", "Jan 17th", 15));
-        savedForecasts.add(new Forecast("u.s", "nyc", "Aug 30th", 30));
-        savedForecasts.add(new Forecast("canada", "mount pearl", "Dec. 25th", -10));
+        savedForecasts.add(new Forecast("canada", "ottawa", "Jan 17th", "Sunny",15, 13, 60, 1, 10, 10));
+        savedForecasts.add(new Forecast("u.s", "nyc", "Aug 30th", "Sunny",15, 13, 60, 1, 10, 10));
+        savedForecasts.add(new Forecast("canada", "mount pearl", "Dec. 25th", "Sunny",15, 13, 60, 1, 10, 10));
         myAdapter.notifyDataSetChanged();
 
 
@@ -129,6 +132,9 @@ public class WeatherActivity extends AppCompatActivity {
      * @version 1.0
      */
     class MyRowHolder extends RecyclerView.ViewHolder {
+        /** Delete button for the forecast */
+        Button forecastDeleteBtn;
+
         /** Country of the forecast */
         TextView forecastCountry;
 
@@ -148,11 +154,33 @@ public class WeatherActivity extends AppCompatActivity {
             super(itemView);
 
             // Access views for the row
+            forecastDeleteBtn = itemView.findViewById(R.id.forecastDeleteBtn);
             forecastCountry = itemView.findViewById(R.id.forecastCountry);
             forecastCity = itemView.findViewById(R.id.forecastCity);
             forecastDate = itemView.findViewById(R.id.forecastDate);
             forecastTemp = itemView.findViewById(R.id.forecastTemp);
 //            forecastIcon = itemView.findViewById(R.id.forecastIcon); ** IMPLEMENT LATER
+
+            // Activate delete button
+            forecastDeleteBtn.setOnClickListener(clk -> {
+                int position = getAdapterPosition(); // position of forecast in array list
+
+                // Show an AlertDialog when the user clicks the delete button asking if they want to delete the forecast
+                AlertDialog.Builder builder = new AlertDialog.Builder(WeatherActivity.this);
+                builder.setMessage("Do you want to delete this forecast?")
+                    .setTitle("Delete saved forecast:")
+                    .setNegativeButton("No", (dialog, cl) -> {})
+                    .setPositiveButton("Yes", (dialog, cl) -> {
+                        // Remove forecast if they click "Yes"
+                        savedForecasts.remove(position);
+                        myAdapter.notifyItemRemoved(position);
+
+                        // Show Snackbar stating that you deleted the forecast
+                        Snackbar.make(forecastDeleteBtn, "Forecast successfully deleted.", Snackbar.LENGTH_LONG).show();
+                    })
+                .create()
+                .show();
+            });
         }
     }
 }

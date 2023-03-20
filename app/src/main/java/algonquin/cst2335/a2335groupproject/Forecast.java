@@ -7,55 +7,118 @@ package algonquin.cst2335.a2335groupproject;
 public class Forecast {
 
     /** Country of the forecast */
-    private String forecastCountry;
+    private String country;
 
     /** City of the forecast */
-    private String forecastCity;
+    private String city;
 
     /** Date forecast was saved */
-    private String forecastDate;
+    private String date;
+
+    /** Description of the weather */
+    private String description;
 
     /** Temperature of the forecast */
-    private int forecastTemp;
+    private int temperature;
 
-    /** Constructor for new forecasts
-     * @param forecastCountry Country of the forecast
-     * @param forecastCity City of the forecast
-     * @param forecastDate Date of the forecast
-     * @param forecastTemp Temperature of the forecast
+    /** What the temperature feels like */
+    private int feelsLike;
+
+    /** The forecasts humidity */
+    private int humidity;
+
+    /** The forecasts UV index */
+    private int uvIndex;
+
+    /** The forecast wind speed */
+    private int windSpeed;
+
+    /** The forecasts visibility */
+    private int visibility;
+
+
+    /** Constructor for new Forecast's
+     * @param country The country of the forecast
+     * @param city The city of the forecast
+     * @param date The date of the forecast
+     * @param description Description of the forecasts weather
+     * @param temperature Temperature of the forecast
+     * @param feelsLike What the temperature feels like
+     * @param humidity Humidity of the forecast
+     * @param uvIndex UV index of the forecast
+     * @param windSpeed Wind speed of the forecast
+     * @param visibility Visibility of the forecast
      */
-    public Forecast(String forecastCountry, String forecastCity, String forecastDate, int forecastTemp) {
-        this.forecastCountry = forecastCountry;
-        this.forecastCity = forecastCity;
-        this.forecastDate = forecastDate;
-        this.forecastTemp = forecastTemp;
+    public Forecast(String country, String city, String date, String description, int temperature, int feelsLike, int humidity, int uvIndex, int windSpeed, int visibility) {
+        this.country = country;
+        this.city = city;
+        this.date = date;
+        this.description = description;
+        this.temperature = temperature;
+        this.feelsLike = feelsLike;
+        this.humidity = humidity;
+        this.uvIndex = uvIndex;
+        this.windSpeed = windSpeed;
+        this.visibility = visibility;
     }
 
-    /** Getter for forecastCountry
+    /** Getter for country
      * @return The country of the forecast
      */
-    public String getForecastCountry() {
-        return this.forecastCountry;
+    public String getCountry() {
+        return this.country;
     }
 
-    /** Getter for forecastCity
+    /** Getter for city
      * @return The city of the forecast
      */
-    public String getForecastCity() {
-        return this.forecastCity;
+    public String getCity() {
+        return this.city;
     }
 
-    /** Getter for forecastDate
+    /** Getter for date
      * @return The date of the forecast
      */
-    public String getForecastDate() {
-        return this.forecastDate;
+    public String getDate() {
+        return this.date;
     }
 
-    /** Getter for forecastTemp
+    /** Getter for description
+     * @return Description of the weather
+     */
+    public String getDescription() {
+        return this.description;
+    }
+
+    /** Getter for temperature
      * @return The temperature of the forecast
      */
-    public int getForecastTemp() {
-        return this.forecastTemp;
+    public int getTemperature() {
+        return this.temperature;
     }
+
+    /** Getter for feelsLike
+     * @return What the temperature feels like
+     */
+    public int getFeelsLike() { return this.feelsLike; }
+
+    /** Getter for humidity
+     * @return The humidity of the forecast
+     */
+    public int getHumidity() { return this.humidity; }
+
+    /** Getter for uvIndex
+     * @return The uv index of the forecast
+     */
+    public int getUvIndex() { return this.uvIndex; }
+
+    /** Getter for windSpeed
+     * @return The wind speed of the forecast
+     */
+    public int getWindSpeed() { return this.windSpeed; }
+
+    /** Getter for visibility
+     * @return The visibility of the forecast
+     */
+    public int getVisibility() { return this.visibility; }
 }
