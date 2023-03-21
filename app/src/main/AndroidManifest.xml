@@ -9,6 +9,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.2335GroupProject">
         <activity
+            android:name=".NasaPhotos2"
+            android:exported="false" />
+        <activity
+            android:name=".NasaPhotos"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
