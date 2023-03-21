@@ -26,7 +26,7 @@ import java.util.concurrent.Executors;
 import algonquin.cst2335.a2335groupproject.data.SearchViewModel;
 import algonquin.cst2335.a2335groupproject.databinding.ActivityNasaPhotos2Binding;
 import algonquin.cst2335.a2335groupproject.databinding.ActivityNasaPhotosBinding;
-import algonquin.cst2335.a2335groupproject.databinding.Nasa2Binding;
+
 
 public class NasaPhotos extends AppCompatActivity {
 
@@ -43,53 +43,41 @@ public class NasaPhotos extends AppCompatActivity {
 
         SearchViewModel searchModel = new ViewModelProvider(this).get(SearchViewModel.class);
         pictures= searchModel.messages.getValue();
+
 binding.search.setOnClickListener(clk ->{
-    if (binding.editText == null) {
+    if (binding.editText.getText() == null) {
         Context context = getApplicationContext();
         CharSequence text = "Please choose the date.";
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(context, text, duration);
-        toast.show();
-}
+        toast.show();}
+
+        SharedPreferences prefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = prefs.edit();
+
+        String editText=binding.storedHistory.getText().toString();
+
+        editor.putString("Date",editText);
+
+        editor.apply();
+
+        String stored = prefs.getString("Date","");
+        binding.storedHistory.setText(stored);
 
 
-
-        View parentLayout = findViewById(android.R.id.content);
-        Snackbar.make(parentLayout, "This is main activity", Snackbar.LENGTH_LONG)
-                .setAction("CLOSE", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                    }
-                })
-                .setActionTextColor(getResources().getColor(android.R.color.holo_red_light ))
-                .show();
-
-});
-
-        binding.search.setOnClickListener( clk-> {
-            SharedPreferences prefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
-
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putString("Date", "2022.01.01");
-            editor.apply();
-
-            prefs.getString("Date", "");
+        Intent nasaPage = new Intent(NasaPhotos.this, NasaPhotos2.class);
+        startActivity(nasaPage);
 
 
-            Intent nextPage = new Intent( NasaPhotos.this, NasaPhotos2.class);
-            String editText=binding.editText.getText().toString();
-
-            nextPage.putExtra("editText",editText);
-                     startActivity(nextPage);
         myAdapter = new RecyclerView.Adapter<NasaPhotos.MyRowHolder>() {
             @NonNull
             @Override
             public NasaPhotos.MyRowHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-                    Nasa2Binding  roomBinding = Nasa2Binding.inflate(getLayoutInflater(),parent,false);
-                    View root=roomBinding.getRoot();
-                    return new NasaPhotos.MyRowHolder(root);
+                ActivityNasaPhotos2Binding  roomBinding = ActivityNasaPhotos2Binding.inflate(getLayoutInflater(),parent,false);
+                View root=roomBinding.getRoot();
+                return new NasaPhotos.MyRowHolder(root);
 
             }
 
@@ -108,22 +96,36 @@ binding.search.setOnClickListener(clk ->{
 
             @Override
             public int getItemViewType(int position) {
-                    Pictures obj = pictures.get(position);
+                Pictures obj = pictures.get(position);
                 if(obj.isSearchButton){
                     return 1;
                 }else
                     return 0;
             }
-        };
-            ActivityNasaPhotos2Binding binding2 = ActivityNasaPhotos2Binding.inflate(getLayoutInflater());
-            binding2.recycleView.setLayoutManager(new LinearLayoutManager(this));
+        };});
+        ActivityNasaPhotos2Binding binding2 = ActivityNasaPhotos2Binding.inflate(getLayoutInflater());
+        binding2.recycleView.setLayoutManager(new LinearLayoutManager(this));
 
-        });}
+
+
+
+
+        View parentLayout = findViewById(android.R.id.content);
+        Snackbar.make(parentLayout, "This is main activity", Snackbar.LENGTH_LONG)
+                .setAction("CLOSE", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                })
+                .setActionTextColor(getResources().getColor(android.R.color.holo_red_light ))
+                .show();
+
+}
+
 
 class MyRowHolder extends RecyclerView.ViewHolder{
     TextView messageText;
-
-
 
 
     public MyRowHolder(@NonNull View itemView) {

@@ -1,7 +1,17 @@
 package algonquin.cst2335.a2335groupproject;
-public class Pictures {
-    String date;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
+public class Pictures {
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name="ID")
+    public long id;
+    @ColumnInfo(name="Date")
+    String date;
+    @ColumnInfo(name="IsSearchButton")
     boolean isSearchButton;
 
     Pictures(String date,  boolean isSearchButton)
