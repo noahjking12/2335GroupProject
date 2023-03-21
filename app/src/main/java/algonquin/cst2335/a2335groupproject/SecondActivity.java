@@ -48,8 +48,6 @@ public class SecondActivity extends AppCompatActivity {
         binding2 = ActivitySecondBinding.inflate(getLayoutInflater());
         setContentView(binding2.getRoot());
 
-
-
         binding2.recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         //File sandbox = new File(getFilesDir(), "favourite.png");
