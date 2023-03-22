@@ -28,6 +28,12 @@
             android:name=".NewYorkTimes"
             android:exported="false" />
         <activity
+            android:name=".NasaPhotos2"
+            android:exported="false" />
+        <activity
+            android:name=".NasaPhotos"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
 

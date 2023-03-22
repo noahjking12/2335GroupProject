@@ -37,5 +37,11 @@ public class MainActivity extends AppCompatActivity {
             startActivity(nasaPage);
         });
 
+
+        // Go to weather activity
+        binding.NasaMarsRoverButton.setOnClickListener(clk -> {
+            Intent nasaPage = new Intent(MainActivity.this, NasaPhotos.class);
+            startActivity(nasaPage);
+        });
     }
 }
