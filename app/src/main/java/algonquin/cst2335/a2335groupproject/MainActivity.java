@@ -1,0 +1,34 @@
+package algonquin.cst2335.a2335groupproject;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+
+import algonquin.cst2335.a2335groupproject.databinding.ActivityMainBinding;
+import algonquin.cst2335.a2335groupproject.ui.WeatherActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
+
+
+        setContentView(binding.getRoot());
+
+        binding.KittenPlaceholderButton.setOnClickListener( button -> {
+            Intent nextPage = new Intent(MainActivity.this, SecondActivity.class);
+
+            startActivity( nextPage );
+        });
+
+        binding.WeatherStackButton.setOnClickListener( btn -> {
+            Intent nextPage = new Intent(MainActivity.this, WeatherActivity.class);
+
+            startActivity(nextPage);
+        });
+    }
+}
