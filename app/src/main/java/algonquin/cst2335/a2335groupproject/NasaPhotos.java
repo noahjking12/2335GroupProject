@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,16 +24,18 @@ import java.util.ArrayList;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import algonquin.cst2335.a2335groupproject.data.PicturesDatabase;
 import algonquin.cst2335.a2335groupproject.data.SearchViewModel;
 import algonquin.cst2335.a2335groupproject.databinding.ActivityNasaPhotos2Binding;
 import algonquin.cst2335.a2335groupproject.databinding.ActivityNasaPhotosBinding;
+import algonquin.cst2335.a2335groupproject.databinding.SavedHistoryBinding;
 
 
 public class NasaPhotos extends AppCompatActivity {
 
     ArrayList<Pictures> pictures;
     PicturesDAO mDAO;
-
+    private SearchViewModel viewModel;
     private RecyclerView.Adapter myAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,41 +44,22 @@ public class NasaPhotos extends AppCompatActivity {
 
         setContentView(binding.getRoot());
 
-        SearchViewModel searchModel = new ViewModelProvider(this).get(SearchViewModel.class);
-        pictures= searchModel.messages.getValue();
+        PicturesDatabase db = Room.databaseBuilder(getApplicationContext(), PicturesDatabase.class, "database-name").build();
+        mDAO = db.cmDAO();
 
-binding.search.setOnClickListener(clk ->{
-    if (binding.editText.getText() == null) {
-        Context context = getApplicationContext();
-        CharSequence text = "Please choose the date.";
-        int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(context, text, duration);
-        toast.show();}
+        viewModel = new ViewModelProvider(this).get(SearchViewModel.class);
+        pictures= viewModel.messages.getValue();
 
-        SharedPreferences prefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
-
-        SharedPreferences.Editor editor = prefs.edit();
-
-        String editText=binding.storedHistory.getText().toString();
-
-        editor.putString("Date",editText);
-
-        editor.apply();
-
-        String stored = prefs.getString("Date","");
-        binding.storedHistory.setText(stored);
-
-
-        Intent nasaPage = new Intent(NasaPhotos.this, NasaPhotos2.class);
-        startActivity(nasaPage);
-
-
-        myAdapter = new RecyclerView.Adapter<NasaPhotos.MyRowHolder>() {
+      if(pictures == null){
+        viewModel.messages.postValue(pictures = new ArrayList<>());
+}
+        binding.recycleViewFirstPage.setLayoutManager(new LinearLayoutManager(this));
+        binding.recycleViewFirstPage.setAdapter(myAdapter = new RecyclerView.Adapter<NasaPhotos.MyRowHolder>() {
             @NonNull
             @Override
             public NasaPhotos.MyRowHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-                ActivityNasaPhotos2Binding  roomBinding = ActivityNasaPhotos2Binding.inflate(getLayoutInflater(),parent,false);
+                SavedHistoryBinding roomBinding = SavedHistoryBinding.inflate(getLayoutInflater(),parent,false);
                 View root=roomBinding.getRoot();
                 return new NasaPhotos.MyRowHolder(root);
 
@@ -86,7 +70,6 @@ binding.search.setOnClickListener(clk ->{
                 Pictures message=pictures.get(position);
                 holder.messageText.setText(message.getDate());
 
-
             }
 
             @Override
@@ -94,33 +77,30 @@ binding.search.setOnClickListener(clk ->{
                 return pictures.size();
             }
 
-            @Override
-            public int getItemViewType(int position) {
-                Pictures obj = pictures.get(position);
-                if(obj.isSearchButton){
-                    return 1;
-                }else
-                    return 0;
-            }
-        };});
-        ActivityNasaPhotos2Binding binding2 = ActivityNasaPhotos2Binding.inflate(getLayoutInflater());
-        binding2.recycleView.setLayoutManager(new LinearLayoutManager(this));
+        });
 
 
+        SharedPreferences prefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+        String date = prefs.getString("Date", "");
 
 
-
-        View parentLayout = findViewById(android.R.id.content);
-        Snackbar.make(parentLayout, "This is main activity", Snackbar.LENGTH_LONG)
-                .setAction("CLOSE", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                    }
-                })
-                .setActionTextColor(getResources().getColor(android.R.color.holo_red_light ))
-                .show();
-
+        binding.search.setOnClickListener(clk ->{
+            String userInput=binding.editText.getText().toString();
+            if (userInput.equals("") ) {
+                Context context = getApplicationContext();
+                CharSequence text = "Please choose the date.";
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+            }else {
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("Date", userInput);
+                editor.apply();
+                pictures.add(new Pictures(userInput));
+                myAdapter.notifyItemInserted(pictures.size()-1);
+                //  binding.editText.setText("");
+                Intent nasaPage = new Intent(NasaPhotos.this, NasaPhotos2.class);
+                startActivity(nasaPage);}});
 }
 
 
@@ -173,7 +153,7 @@ class MyRowHolder extends RecyclerView.ViewHolder{
 
 
         });
-        messageText = itemView.findViewById(R.id.date);
+        messageText = itemView.findViewById(R.id.messageText);
 
 
     }

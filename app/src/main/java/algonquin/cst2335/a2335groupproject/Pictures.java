@@ -11,21 +11,21 @@ public class Pictures {
     public long id;
     @ColumnInfo(name="Date")
     String date;
-    @ColumnInfo(name="IsSearchButton")
-    boolean isSearchButton;
+//    @ColumnInfo(name="IsSearchButton")
+//    boolean isSearchButton;
 
-    Pictures(String date,  boolean isSearchButton)
+    Pictures(String date)
     {
         this.date=date;
-        this.isSearchButton=isSearchButton;
+//        this.isSearchButton=isSearchButton;
     }
 
     public String getDate(){
-       return date;
+       return this.date;
     }
 
-    public boolean getIsSearchButton(){
-        return isSearchButton;
-    }
+//    public boolean getIsSearchButton(){
+//        return this.isSearchButton;
+//    }
 
 }
