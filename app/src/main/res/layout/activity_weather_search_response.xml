@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.WeatherSearchResponse">
+
+    <Button
+        android:id="@+id/saveForecastBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="96dp"
+        android:text="@string/save_btn"
+        app:backgroundTint="#00B507"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cityUvIndex" />
+
+    <TextView
+        android:id="@+id/cityTemp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="17"
+        android:textSize="96sp"
+        app:layout_constraintStart_toStartOf="@+id/cityName"
+        app:layout_constraintTop_toBottomOf="@+id/cityName" />
+
+    <TextView
+        android:id="@+id/cityWeatherDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:text="sunny"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/cityWeatherIcon" />
+
+    <ImageView
+        android:id="@+id/cityWeatherIcon"
+        android:layout_width="44dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toEndOf="@+id/cityTemp"
+        app:layout_constraintTop_toTopOf="@+id/cityTemp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/cityName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="64dp"
+        android:text="prague"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/cityFeelsLike"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Feels like 17"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/cityTemp"
+        app:layout_constraintEnd_toEndOf="@+id/cityWeatherDesc" />
+
+    <TextView
+        android:id="@+id/cityHumidity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:text=" humidity 63%"
+        app:layout_constraintStart_toStartOf="@+id/cityTemp"
+        app:layout_constraintTop_toBottomOf="@+id/cityTemp" />
+
+    <TextView
+        android:id="@+id/cityUvIndex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text=" UV index 2"
+        app:layout_constraintStart_toStartOf="@+id/cityHumidity"
+        app:layout_constraintTop_toBottomOf="@+id/cityHumidity" />
+
+    <TextView
+        android:id="@+id/cityWindSpeed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Wind speed 5/ms"
+        app:layout_constraintEnd_toEndOf="@+id/cityFeelsLike"
+        app:layout_constraintTop_toTopOf="@+id/cityHumidity" />
+
+    <TextView
+        android:id="@+id/cityVisibility"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Visibility"
+        app:layout_constraintEnd_toEndOf="@+id/cityWindSpeed"
+        app:layout_constraintTop_toBottomOf="@+id/cityWindSpeed" />
+</androidx.constraintlayout.widget.ConstraintLayout>
