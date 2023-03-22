@@ -30,5 +30,12 @@ public class MainActivity extends AppCompatActivity {
 
             startActivity(nextPage);
         });
+
+        // Go to NewYorkTimes activity
+        binding.NewYorkTimesButton.setOnClickListener(clk -> {
+            Intent nasaPage = new Intent(MainActivity.this, NewYorkTimes.class);
+            startActivity(nasaPage);
+        });
+
     }
 }
