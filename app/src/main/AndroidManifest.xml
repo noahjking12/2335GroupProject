@@ -23,7 +23,7 @@
             android:name=".ui.MainActivity" />
         <activity
             android:name=".NewYorkTimes2"
-            android:exported="false" />
+            android:exported="false"/> />
         <activity
             android:name=".NewYorkTimes"
             android:exported="false" />
