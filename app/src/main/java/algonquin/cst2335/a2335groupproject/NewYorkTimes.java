@@ -13,6 +13,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.renderscript.ScriptGroup;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -42,7 +44,7 @@ private ActivityNewYorkTimesBinding binding;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
          binding = ActivityNewYorkTimesBinding.inflate(getLayoutInflater());
-
+        setSupportActionBar(binding.myToolbar);
         setContentView(binding.getRoot());
 
         ArticleDatabase db = Room.databaseBuilder(getApplicationContext(), ArticleDatabase.class, "database-name").build();
@@ -86,10 +88,11 @@ private ActivityNewYorkTimesBinding binding;
 
 
         binding.Searchbutton.setOnClickListener(clk ->{
+            String choose = getResources().getString(R.string.choose_topic);
             String userInput=binding.editText.getText().toString();
             if (userInput.equals("") ) {
                 Context context = getApplicationContext();
-                CharSequence text = "Please choose the topic.";
+                CharSequence text = choose;
                 int duration = Toast.LENGTH_SHORT;
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
@@ -102,6 +105,30 @@ private ActivityNewYorkTimesBinding binding;
                 //  binding.editText.setText("");
                 Intent nasaPage = new Intent(NewYorkTimes.this, NewYorkTimes2.class);
                 startActivity(nasaPage);}});
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.menu_bar, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        String instruction = getResources().getString(R.string.instruction);
+        String details =getResources().getString(R.string.details);
+        switch( item.getItemId() )
+        {
+            case R.id.helpMenu:
+                // show the instruction
+                AlertDialog.Builder builder = new AlertDialog.Builder(NewYorkTimes.this);
+                builder.setMessage(details)
+                        .setTitle(instruction)
+                        .create().show();
+                break;
+
+        }
+
+        return true;
     }
 
 
@@ -116,12 +143,16 @@ private ActivityNewYorkTimesBinding binding;
             itemView.setOnClickListener(clk->{
                 int position = getAbsoluteAdapterPosition();
                 Articles clickMessage = articles.get(position);
-
-
+String question =getResources().getString(R.string.question);
+                String confirm =getResources().getString(R.string.confirm);
+                String deleted =getResources().getString(R.string.deleted);
+                String undo =getResources().getString(R.string.undo);
+                String cancel =getResources().getString(R.string.cancel);
+                String yes =getResources().getString(R.string.yes);
                 AlertDialog.Builder builder = new AlertDialog.Builder(NewYorkTimes.this);
-                builder.setMessage("Do you want to delete the message: " + messageText.getText())
-                        .setTitle("Question")
-                        .setPositiveButton("OK", (dialog, which) -> {
+                builder.setMessage(confirm + messageText.getText())
+                        .setTitle(question)
+                        .setPositiveButton(yes, (dialog, which) -> {
 
                             Executor thread = Executors.newSingleThreadExecutor();
                             thread.execute(() -> {
@@ -130,8 +161,8 @@ private ActivityNewYorkTimesBinding binding;
 
                                 runOnUiThread(()->{
                                     myAdapter.notifyItemRemoved(position); //update the recycleview
-                                    Snackbar.make(messageText, "You deleted message #"+position,Snackbar.LENGTH_LONG)
-                                            .setAction("Undo", click ->{
+                                    Snackbar.make(messageText, deleted+position+1,Snackbar.LENGTH_LONG)
+                                            .setAction(undo, click ->{
                                                 Executor thread2 = Executors.newSingleThreadExecutor();
                                                 thread2.execute(() -> {
                                                     mDAO.insertMessage(clickMessage);
@@ -145,7 +176,7 @@ private ActivityNewYorkTimesBinding binding;
                             });
                         })
 
-                        .setNegativeButton("Cancel", (dialog, cl) -> {
+                        .setNegativeButton(cancel, (dialog, cl) -> {
                         })
                         .create().show();
 

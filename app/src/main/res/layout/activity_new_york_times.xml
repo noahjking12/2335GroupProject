@@ -6,14 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".NewYorkTimes">
 
-
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/myToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
     <TextView
         android:id="@+id/textView"
         android:layout_width="411dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="56dp"
         android:fontFamily="cursive"
-        android:text="Search Articles"
+        android:text="@string/search_articles"
         android:textAlignment="center"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -25,7 +31,9 @@
         android:id="@+id/imageView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/newyorktimes" />
@@ -35,28 +43,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
-        android:text="Enter the topic your are interested in"
+        android:text="@string/topicenter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
+
 
     <Button
         android:id="@+id/Searchbutton"
         android:layout_width="411dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
-        android:text="Search"
+        android:layout_marginTop="44dp"
+        android:text="@string/search_btn"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText" />
-
 
     <TextView
         android:id="@+id/historySearched"
         android:layout_width="wrap_content"
         android:layout_height="17dp"
-        android:layout_marginTop="56dp"
-        android:text="Search History"
+        android:layout_marginTop="24dp"
+        android:text="@string/search_history"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -65,8 +74,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycleView"
         android:layout_width="match_parent"
-        android:layout_height="189dp"
-        android:layout_marginTop="28dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

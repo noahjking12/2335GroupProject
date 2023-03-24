@@ -18,6 +18,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
 
+        binding.NasaMarsRoverButton.setOnClickListener(clk ->{
+            Intent nasaPage = new Intent(MainActivity.this, NasaPhotos.class);
+            startActivity(nasaPage);
+        });
+        binding.KittenPlaceholderButton.setOnClickListener(clk ->
+        {   Intent kittenPage = new Intent(MainActivity.this, SecondActivity.class);
+
+            startActivity( kittenPage );
+
+        });
+        binding.NewYorkTimesButton.setOnClickListener(clk->{
+    Intent nytPage = new Intent(MainActivity.this, NewYorkTimes.class);
+    startActivity(nytPage);
+});
+        binding.WeatherStackButton.setOnClickListener(clk ->{
+            Intent weatherPage = new Intent(MainActivity.this, WeatherActivity.class);
+
+            startActivity(weatherPage);
+        });
 
         setSupportActionBar(binding.myToolbar);
 

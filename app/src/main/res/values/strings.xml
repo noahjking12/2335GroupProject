@@ -7,4 +7,21 @@
     <string name="search_btn">Search</string>
     <string name="delete_btn">Delete</string>
     <string name="save_btn">Save</string>
+    <string name="topicenter">Enter the topic your are interested in</string>
+    <string name="search_articles">Search Articles</string>
+    <string name="search_history">Search History</string>
+    <string name="instruction">Instruction</string>
+    <string name="choose_topic">Please choose the topic.</string>
+    <string name="details">1. Type in a keyword or phrase related to the topic you are interested in.
+        2. Hit the search button and browse the search results: it will display a list of search results based on your keyword or phrase.
+        3. If you are not finding what you are looking for, try refining your search by using more specific keywords or phrases.
+        4. Click on a search result to view more information: Once you find a search result that interests you, click on it to view more information.
+        5. Save or share the information: If you find something useful, you can save it for future reference or share it with others using the app is sharing features.</string>
+<string name="question">Question</string>
+    <string name="confirm">Do you want to delete the message:</string>
+    <string name="deleted">You deleted message #</string>
+    <string name="undo">Undo</string>
+    <string name="cancel">Cancel</string>
+<string name="yes">Yes</string>
+
 </resources>

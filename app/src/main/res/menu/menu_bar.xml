@@ -22,4 +22,9 @@
         android:title="Weather Stack"
         app:showAsAction="always"
         android:icon="@drawable/weather"/>
+    <item
+        android:id="@+id/helpMenu"
+        android:title="Help"
+        android:icon="@drawable/helpmenu"
+        app:showAsAction="always"/>
 </menu>
