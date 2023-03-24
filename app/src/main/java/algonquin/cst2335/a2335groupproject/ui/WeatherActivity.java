@@ -118,10 +118,10 @@ public class WeatherActivity extends AppCompatActivity {
         // *****************************************************
         // * TEST DATA FOR SAVED FORECASTS
 
-        savedForecasts.add(new Forecast("canada", "ottawa", "Jan 17th", "Sunny",15, 13, 60, 1, 10, 10));
-        savedForecasts.add(new Forecast("u.s", "nyc", "Aug 30th", "Sunny",15, 13, 60, 1, 10, 10));
-        savedForecasts.add(new Forecast("canada", "mount pearl", "Dec. 25th", "Sunny",15, 13, 60, 1, 10, 10));
-        myAdapter.notifyDataSetChanged();
+//        savedForecasts.add(new Forecast("canada", "ottawa", "Jan 17th", "Sunny",15, 13, 60, 1, 10, 10));
+//        savedForecasts.add(new Forecast("u.s", "nyc", "Aug 30th", "Sunny",15, 13, 60, 1, 10, 10));
+//        savedForecasts.add(new Forecast("canada", "mount pearl", "Dec. 25th", "Sunny",15, 13, 60, 1, 10, 10));
+//        myAdapter.notifyDataSetChanged();
 
 
         // *****************************************************
