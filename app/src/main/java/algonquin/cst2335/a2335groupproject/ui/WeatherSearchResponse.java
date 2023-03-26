@@ -1,12 +1,16 @@
 package algonquin.cst2335.a2335groupproject.ui;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -28,6 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import algonquin.cst2335.a2335groupproject.Forecast;
+import algonquin.cst2335.a2335groupproject.R;
 import algonquin.cst2335.a2335groupproject.databinding.ActivityWeatherBinding;
 import algonquin.cst2335.a2335groupproject.databinding.ActivityWeatherSearchResponseBinding;
 
@@ -122,8 +127,7 @@ public class WeatherSearchResponse extends AppCompatActivity {
                                         }
                                     }
                                 }, 1024, 1024, ImageView.ScaleType.CENTER, null, (error) -> {
-                                    // Show a Toast explaining the error
-                                    Toast.makeText(WeatherSearchResponse.this, "Could not load weather icon: " + error, Toast.LENGTH_SHORT).show();
+                                    // Do nothing, display without icon
                                 });
                                 queue.add(imageReq); // Add the image request to the queue
                             }
@@ -131,17 +135,24 @@ public class WeatherSearchResponse extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
+                        // Get strings from res/string
+                        String resFeelsLike = getResources().getString(R.string.feels_like);
+                        String resHumidity = getResources().getString(R.string.humidity);
+                        String resUvIndex = getResources().getString(R.string.uv_index);
+                        String resWindSpeed = getResources().getString(R.string.wind);
+                        String resVisibility = getResources().getString(R.string.visibility);
+
                         // Display the data
                         runOnUiThread(() -> {
                             binding.cityName.setText(cityName);
                             binding.cityTemp.setText(Integer.toString(temperature));
                             binding.cityWeatherIcon.setImageBitmap(image);
                             binding.cityWeatherDesc.setText(description);
-                            binding.cityFeelsLike.setText("Feels like: " + Integer.toString(feelsLike));
-                            binding.cityHumidity.setText("Humidity: " + Integer.toString(humidity) + "%");
-                            binding.cityUvIndex.setText("UV index: " + Integer.toString(uvIndex));
-                            binding.cityWindSpeed.setText("Wind speed: " + Integer.toString(windSpeed) + "km/h");
-                            binding.cityVisibility.setText("Visibility: " +Integer.toString(visibility));
+                            binding.cityFeelsLike.setText(resFeelsLike + Integer.toString(feelsLike));
+                            binding.cityHumidity.setText(resHumidity + Integer.toString(humidity) + "%");
+                            binding.cityUvIndex.setText(resUvIndex + Integer.toString(uvIndex));
+                            binding.cityWindSpeed.setText(resWindSpeed + Integer.toString(windSpeed) + "km/h");
+                            binding.cityVisibility.setText(resVisibility + Integer.toString(visibility));
                         });
 
                         // Get current date
@@ -155,19 +166,60 @@ public class WeatherSearchResponse extends AppCompatActivity {
                     }
                 },
                 (error) -> {
+                    // Get string from res/string
+                    String forecastError = getResources().getString(R.string.forecast_error);
+
                     // Show a Toast describing the error
-                    Toast.makeText(WeatherSearchResponse.this, "Failed to retrieve Forecast: " + error, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WeatherSearchResponse.this, forecastError + error, Toast.LENGTH_SHORT).show();
                 });
         queue.add(request); // Add request to the queue
 
         // Activate save forecast button
         binding.saveForecastBtn.setOnClickListener(clk -> {
+            // Get string from res/string
+            String forecastSaved = getResources().getString(R.string.forecast_saved);
+
             // Show a Toast stating that the forecast was successfully saved
             Context context = getApplicationContext();
-            CharSequence text = "Forecast for " + cityName + " successfully saved!";
+            CharSequence text = forecastSaved + cityName;
             int duration = Toast.LENGTH_SHORT;
             Toast.makeText(context, text, duration).show();
         });
+
+        setSupportActionBar(binding.weatherResponseToolbar);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+
+        getMenuInflater().inflate(R.menu.weather_menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch( item.getItemId() )
+        {
+            case R.id.weatherHelp:
+
+                // Get strings from res/string
+                String weatherInstructions = getResources().getString(R.string.weather_response_instructions);
+                String weatherHelpTitle = getResources().getString(R.string.weather_help);
+
+                // Display AlertDialog providing instructions on how to use this activity
+                AlertDialog.Builder builder = new AlertDialog.Builder( WeatherSearchResponse.this );
+                builder.setMessage(weatherInstructions)
+                        .setTitle(weatherHelpTitle)
+                        .create()
+                        .show();
+
+                break;
+        }
+
+        return true;
     }
 
     /** Helper method that parses the file name of the icon from the url the api provides

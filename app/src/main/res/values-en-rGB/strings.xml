@@ -8,7 +8,20 @@
     <string name="saved_forecasts">My forecasts</string>
     <string name="delete_btn">Delete</string>
     <string name="save_btn">Save</string>
-    <string name="humidity">Humidity</string>
-    <string name="feels_like">Feels like</string>
-    <string name="wind">Wind speed</string>
+    <string name="humidity">"Humidity: "</string>
+    <string name="feels_like">"Feels like: "</string>
+    <string name="wind">"Wind speed: "</string>
+    <string name="help">Help</string>
+    <string name="weather_instructions">To search for a forecast, type in the name of the city you want to get the forecast for, then tap the \"Search\" button. To get more details about a saved forecast, tap on a forecast under \"My forecasts\". To delete a saved forecast, tap the \"Delete\" button, then select \"Yes\".</string>
+    <string name="yes_button">Yes</string>
+    <string name="no_button">No</string>
+    <string name="weather_help">Instructions</string>
+    <string name="delete_forecast_msg">Do you want to delete this forecast?</string>
+    <string name="delete_forecast_title">Delete saved forecast:</string>
+    <string name="forecast_deleted">Forecast successfully deleted!</string>
+    <string name="weather_response_instructions">To save the forecast, tap on the \"Save button\".</string>
+    <string name="forecast_saved">"Forecast successfully saved for: "</string>
+    <string name="forecast_error">"Failed to retrieve forecast: "</string>
+    <string name="visibility">"Visibility: "</string>
+    <string name="uv_index">"UV index: "</string>
 </resources>
