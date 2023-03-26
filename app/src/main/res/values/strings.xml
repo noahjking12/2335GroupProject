@@ -7,4 +7,21 @@
     <string name="search_btn">Search</string>
     <string name="delete_btn">Delete</string>
     <string name="save_btn">Save</string>
+    <string name="kitten_instruction">Instruction</string>
+    <string name="kitten_detail">"1. Enter a width and height in the text box, whole number only decimal numbers are not accepted.\n2. After enter the width and height, press enter then a kitten picture that match the width and height that the user entered will show up on the screen.\n3. Press the save button will save the last width and height that the user entered.\n4. Click on one of the Kitten picture will show you a message of the selected picture's width and height. "</string>
+    <string name="kitten_enter_btn">Enter</string>
+    <string name="kittin_save_btn">Save</string>
+    <string name="kitten_width">Width: </string>
+    <string name="kitten_height">Height: </string>
+    <string name="kitten_width_hint">Enter Width Here</string>
+    <string name="kittin_height_hint">Enter Height Here</string>
+    <string name="kitten_confirmation">Confirmation</string>
+    <string name="kitten_AlertDialog_Message">Do you want to save the text that you entered?</string>
+    <string name="kitten_Snackbar">You have save the text successfully!</string>
+    <string name="kitten_No">No</string>
+    <string name="kitten_ok">Okay</string>
+    <string name="kitten_toastMessage_width">The width of this image is </string>
+    <string name="kitten_toastMessage_height">, and the height is </string>
+
+
 </resources>

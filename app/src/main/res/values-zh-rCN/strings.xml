@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">2335GroupProject</string>
+    <string name="kitten_enter_btn">输入</string>
+    <string name="kittin_save_btn">保存</string>
+    <string name="kitten_width">宽</string>
+    <string name="kitten_height">高</string>
+    <string name="kitten_width_hint">这里输入宽</string>
+    <string name="kittin_height_hint">这里输入高</string>
+    <string name="kitten_instruction">使用指南</string>
+    <string name="kitten_detail">1. 输入图片的宽和高，只接受整数小数不接受\n2. 输入图片的宽和高后，点击输入然后一张符合你刚刚输入的喵咪图片就会显示在屏幕上\n3. 点击保存按钮会保存用户最后输入的宽和高\n4. 点击猫咪图片会有一个信息显示被点击的猫咪图片的宽和高哦</string>
+    <string name="kitten_confirmation">确认信息</string>
+    <string name="kitten_AlertDialog_Message">你想要保存你上次输入的信息吗？</string>
+    <string name="kitten_Snackbar">保存成功！</string>
+    <string name="kitten_No">不要</string>
+    <string name="kitten_ok">好的</string>
+    <string name="kitten_toastMessage_width">这张图片的宽是</string>
+    <string name="kitten_toastMessage_height">，和高是</string>
+</resources>

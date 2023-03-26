@@ -9,8 +9,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -26,6 +29,7 @@ import java.util.ArrayList;
 import algonquin.cst2335.a2335groupproject.data.CatListViewModel;
 import algonquin.cst2335.a2335groupproject.databinding.ActivitySecondBinding;
 import algonquin.cst2335.a2335groupproject.databinding.ImageListBinding;
+import algonquin.cst2335.a2335groupproject.ui.WeatherActivity;
 
 public class SecondActivity extends AppCompatActivity {
 
@@ -54,12 +58,13 @@ public class SecondActivity extends AppCompatActivity {
         //File sandbox = new File(getFilesDir(), "favourite.png");
 
         myPreferences = getPreferences(Context.MODE_PRIVATE);
-        String widthFound = myPreferences.getString("Width","not found");
-        String heightFound = myPreferences.getString("Height","not found");
+        String widthFound = myPreferences.getString("Width","");
+        String heightFound = myPreferences.getString("Height","");
         binding2.widthEdit.setText(widthFound);
         binding2.heightEdit.setText(heightFound);
 
         binding2.saveButton.setOnClickListener( click -> {
+
             String widthToSaved = binding2.widthEdit.getText().toString();
             String heightToSaved = binding2.heightEdit.getText().toString();
             SharedPreferences.Editor editor = myPreferences.edit();
@@ -68,12 +73,18 @@ public class SecondActivity extends AppCompatActivity {
             editor.apply();
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Confirmation")
-                    .setMessage("Do you want to save the text that you entered?")
-                    .setPositiveButton("Save", (dialog, option)-> {
-                        Snackbar.make(binding2.getRoot(),"You've save the text successfully!", Snackbar.LENGTH_LONG).show();
+            String confirmation = getResources().getString(R.string.kitten_confirmation);
+            String alertMessage = getResources().getString(R.string.kitten_AlertDialog_Message);
+            String saveBtn = getResources().getString(R.string.kittin_save_btn);
+            String snackBarMessage = getResources().getString(R.string.kitten_Snackbar);
+            String noBtn = getResources().getString(R.string.kitten_No);
+
+            builder.setTitle(confirmation)
+                    .setMessage(alertMessage)
+                    .setPositiveButton(saveBtn, (dialog, option)-> {
+                        Snackbar.make(binding2.getRoot(),snackBarMessage, Snackbar.LENGTH_LONG).show();
                     })
-                    .setNegativeButton("No", (dialog, option)->{
+                    .setNegativeButton(noBtn, (dialog, option)->{
                         // do nothing
                     })
                     .show();
@@ -125,9 +136,11 @@ public class SecondActivity extends AppCompatActivity {
                         .into(holder.catImageList);
 
                 holder.catImageList.setOnClickListener(new View.OnClickListener() {
+                    String toastWidth = getResources().getString(R.string.kitten_toastMessage_width);
+                    String toastHeight = getResources().getString(R.string.kitten_toastMessage_height);
                     @Override
                     public void onClick(View v) {
-                        String toastMessage = "The width of this image is " + imageOnRow.getWidth() + ", and the height is " + imageOnRow.getHeight();
+                        String toastMessage = toastWidth + " " + imageOnRow.getWidth() + toastHeight + " " + imageOnRow.getHeight();
                         Toast.makeText(v.getContext(), toastMessage, Toast.LENGTH_LONG).show();
                     }
                 });
@@ -140,6 +153,55 @@ public class SecondActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.menu_bar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        String kitten_instruction = getResources().getString(R.string.kitten_instruction);
+        String instructionInfo = getResources().getString(R.string.kitten_detail);
+        String okBtn = getResources().getString(R.string.kitten_ok);
+
+        switch (item.getItemId())
+        {
+            case R.id.helpMenu:
+                AlertDialog.Builder builder = new AlertDialog.Builder(SecondActivity.this);
+                builder.setMessage(instructionInfo)
+                        .setTitle(kitten_instruction)
+                        .setNegativeButton(okBtn, (dialog, which) -> {
+                            // do nothing
+                        })
+                        .create().show();
+                break;
+
+            case R.id.NasaItem:
+                // go to Nasa page
+                Intent nasaPge = new Intent(SecondActivity.this, NasaPhotos.class);
+                startActivity(nasaPge);
+
+                break;
+
+            case R.id.NYTItem:
+                // go to NewYorkTimes page
+                Intent newYorkTimes = new Intent(SecondActivity.this, NewYorkTimes.class);
+                startActivity(newYorkTimes);
+
+                break;
+
+            case R.id.WeatherItem:
+                // go to Weather page
+                Intent weatherPage = new Intent(SecondActivity.this, WeatherActivity.class);
+                startActivity(weatherPage);
+
+                break;
+        }
+        return true;
     }
 
     public class myCatHolder extends RecyclerView.ViewHolder{
