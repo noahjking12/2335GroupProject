@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,12 +20,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
+import android.util.Base64;
 
 import algonquin.cst2335.a2335groupproject.data.CatListViewModel;
 import algonquin.cst2335.a2335groupproject.databinding.ActivitySecondBinding;
@@ -107,15 +114,36 @@ public class SecondActivity extends AppCompatActivity {
                 String width = binding2.widthEdit.getText().toString();
                 String height = binding2.heightEdit.getText().toString();
                 String url = "https://placekitten.com/"+ width + "/" + height;
-                String catUrl = url;
-                CatList clObj = new CatList(catUrl, width, height);
-                imageUrlList.add(clObj);
-                myAdapter.notifyItemInserted(imageUrlList.size() - 1);
-                //binding2.widthEdit.setText("");
-                //binding2.heightEdit.setText("");
+
+                // instantiate the RequestQueue
+                RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+
+                // Request a binary response from the provided URL
+                ImageRequest request = new ImageRequest(url, new Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap bitmap) {
+                        // covert the Bitmap image to a Base64-encoded String
+                        ByteArrayOutputStream imageConvert = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, imageConvert);
+                        byte[] imageBytes = imageConvert.toByteArray();
+                        String base64Image = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+
+                        // add the base64-encoded image URL to the list
+                        String catUrl = "data:image/jpeg;base64," + base64Image;
+                        CatList clObj = new CatList(catUrl, width, height);
+                        imageUrlList.add(clObj);
+                        myAdapter.notifyItemInserted(imageUrlList.size() - 1);
+                    }
+                }, 0, 0, null, null);
+
+                // add the request to the RequestQueue
+                queue.add(request);
             }
         });
-
+//                String catUrl = url;
+//                CatList clObj = new CatList(catUrl, width, height);
+//                imageUrlList.add(clObj);
+//                myAdapter.notifyItemInserted(imageUrlList.size() - 1);
 
         binding2.recyclerView.setAdapter(myAdapter = new RecyclerView.Adapter<myCatHolder>() {
             @NonNull
