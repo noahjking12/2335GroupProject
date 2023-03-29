@@ -12,7 +12,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.renderscript.ScriptGroup;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,15 +22,15 @@ import android.widget.Toast;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import algonquin.cst2335.a2335groupproject.data.ArticleDatabase;
 import algonquin.cst2335.a2335groupproject.data.ArticleViewModel;
-import algonquin.cst2335.a2335groupproject.databinding.ActivityNewYorkTimes2Binding;
 import algonquin.cst2335.a2335groupproject.databinding.ActivityNewYorkTimesBinding;
 import algonquin.cst2335.a2335groupproject.databinding.StoredHistoryBinding;
+import algonquin.cst2335.a2335groupproject.nyt.ArticleSource;
+import algonquin.cst2335.a2335groupproject.nyt.Articles;
 
 public class NewYorkTimes extends AppCompatActivity {
 
@@ -102,10 +101,10 @@ private ActivityNewYorkTimesBinding binding;
                 editor.apply();
                 articles.add(new Articles(userInput,false));
                 myAdapter.notifyItemInserted(articles.size()-1);
-                //  binding.editText.setText("");
+                //  binding.editText.setText("");1
                 Intent secondPage = new Intent(NewYorkTimes.this, NewYorkTimes2.class);
-                String topic=binding.editText.getText().toString();
-                secondPage.putExtra("Topic",topic);
+             //   String topic=binding.editText.getText().toString();
+            //    secondPage.putExtra("Topic",topic);
                 startActivity(secondPage);}});
     }
     @Override

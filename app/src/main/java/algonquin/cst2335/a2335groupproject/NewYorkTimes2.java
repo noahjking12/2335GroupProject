@@ -3,10 +3,10 @@ package algonquin.cst2335.a2335groupproject;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,6 +28,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
+import algonquin.cst2335.a2335groupproject.data.ArticleViewModel;
 import algonquin.cst2335.a2335groupproject.databinding.ActivityNewYorkTimes2Binding;
 import algonquin.cst2335.a2335groupproject.databinding.ActivityNewYorkTimesBinding;
 import algonquin.cst2335.a2335groupproject.databinding.NytRecycleBinding;
@@ -39,8 +40,7 @@ public class NewYorkTimes2 extends AppCompatActivity {
     RequestQueue queue = null;
     ArticlesDAO mDAO;
     String url;
-
-    protected  String topic;
+    private ArticleViewModel viewModel;
 
 
     private RecyclerView.Adapter myAdapter;
@@ -50,46 +50,23 @@ public class NewYorkTimes2 extends AppCompatActivity {
        ActivityNewYorkTimes2Binding binding = ActivityNewYorkTimes2Binding.inflate(getLayoutInflater());
        ActivityNewYorkTimesBinding binding0=ActivityNewYorkTimesBinding.inflate(getLayoutInflater());
         NytRecycleBinding binding1=NytRecycleBinding.inflate(getLayoutInflater());
-
         setSupportActionBar(binding.myToolbar);
-        setContentView(binding.getRoot());
+        setContentView(binding1.getRoot());
 
-        binding.recycleView.setLayoutManager(new LinearLayoutManager(this));
-        binding.recycleView.setAdapter(myAdapter = new RecyclerView.Adapter<NewYorkTimes2.MyRowHolder2>() {
-            @NonNull
-            @Override
-            public NewYorkTimes2.MyRowHolder2 onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                NytRecycleBinding roomBinding=NytRecycleBinding.inflate(getLayoutInflater(),parent,false);
-                View root=roomBinding.getRoot();
-                return new NewYorkTimes2.MyRowHolder2(root);
+        viewModel = new ViewModelProvider(this).get(ArticleViewModel.class);
+        articles= viewModel.articles.getValue();
 
-            }
-
-            @Override
-            public void onBindViewHolder(@NonNull MyRowHolder2 holder, int position) {
-                ArticleSource message=articles.get(position);
-                holder.abstractText.setText(message.getAbstracts());
-                holder.bylineText.setText(message.getByline());
-                holder.urlText.setText(message.getWebLink());
-                holder.headlineText.setText(message.getHeadline());
-            }
-
-
-            @Override
-            public int getItemCount() {
-                return articles.size();
-            }
-
-        });
-
-
+        if(articles == null){
+            viewModel.articles.postValue(articles=new ArrayList<>());
+        }
         queue = Volley.newRequestQueue(this);
-        binding0.Searchbutton.setOnClickListener(clk ->{
-            Intent fromPrevious = getIntent();
-            String topic = fromPrevious.getStringExtra("Topic");
-            String API_KEY ="ca4ced9661a84b5280c9a0967210b3f6";
+       // binding0.Searchbutton.setOnClickListener(clk ->{
+        //    Intent fromPrevious = getIntent();
+            String topic = binding0.editText.getText().toString();
+                 //   fromPrevious.getStringExtra("Topic");
+            String API_KEY ="CM3Ch8PhugEL5BmEa9S2mzMFsJcAIFXc";
             try {
-                url = "https://api.openweathermap.org/data/2.5/weather?q="+ URLEncoder.encode(topic,"UTF-8")+"&appid="+API_KEY;
+                url = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q="+ URLEncoder.encode(topic,"UTF-8")+"&api-key="+API_KEY;
             } catch (UnsupportedEncodingException e) {
                 throw new RuntimeException(e);
             }
@@ -100,20 +77,33 @@ public class NewYorkTimes2 extends AppCompatActivity {
                     null,
                     (JSONObject response) -> {
                         try {
-                          //  JSONObject mainObject = response.getJSONObject("docs");
-                            JSONArray docsArray = response.getJSONArray("docs");
-                            JSONArray headlineArray = response.getJSONArray("headline");
+
+                            JSONObject mainObject = response.getJSONObject("response");
+                            JSONArray docsArray = mainObject.getJSONArray("docs");
+                            for(int i = 0 ; i < docsArray.length() ; i++){
+                                JSONObject p = docsArray.getJSONObject(i);
+                               // JSONObject headLine1 = mainObject.getJSONObject("docs");
+
+                            //    String headline2 = p.getString("headline").;
+
                             JSONObject position0 = docsArray.getJSONObject(0);
-                            JSONObject position1 = headlineArray.getJSONObject(0);
-
-//                            String iconurl ="https://openweathermap.org/img/w/" + position0.getString("icon")+ ".png" ;
-//                            String icon1= position0.getString("icon")+".png";
-                            //        String icon = parseIconName(icon1);
-
                             String abstracts = position0.getString("abstract");
                             String webUrl = position0.getString("web_url");
-                            String headline = position1.getString("headline");
-                            String byline = position0.getString("byline");
+                          String byline = p.getJSONObject("byline").getString("original");
+                          String headline2 = p.getJSONObject("headline").getString("main");
+                        runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        binding1.webUrl.setText( webUrl);
+                                        binding1.byline.setText( byline);
+                                        binding1.abstracts.setText( abstracts);
+                                        binding1.headline.setText( headline2);
+
+                                    }
+
+
+                                });
+                            }
 
 
 
@@ -158,18 +148,7 @@ public class NewYorkTimes2 extends AppCompatActivity {
 //                                e.printStackTrace();
 //                            }
 
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    binding1.webUrl.setText("The current temperature is " + webUrl);
-                                    binding1.byline.setText("The min temperature is " + byline);
-                                    binding1.abstracts.setText("The max temperature is " + abstracts);
-                                    binding1.headline.setText("The description is " + headline);
 
-                                }
-
-
-                            });
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
                         }
@@ -179,8 +158,35 @@ public class NewYorkTimes2 extends AppCompatActivity {
                     });
             queue.add(request);
 
-        });
+      //  });
 
+        binding.recycleView.setLayoutManager(new LinearLayoutManager(this));
+        binding.recycleView.setAdapter(myAdapter = new RecyclerView.Adapter<NewYorkTimes2.MyRowHolder2>() {
+            @NonNull
+            @Override
+            public NewYorkTimes2.MyRowHolder2 onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                NytRecycleBinding roomBinding=NytRecycleBinding.inflate(getLayoutInflater(),parent,false);
+                View root=roomBinding.getRoot();
+                return new NewYorkTimes2.MyRowHolder2(root);
+
+            }
+
+            @Override
+            public void onBindViewHolder(@NonNull MyRowHolder2 holder, int position) {
+                ArticleSource message=articles.get(position);
+                holder.abstractText.setText(message.getAbstracts());
+                holder.bylineText.setText(message.getByline());
+                holder.urlText.setText(message.getWebLink());
+                holder.headlineText.setText(message.getHeadline());
+            }
+
+
+            @Override
+            public int getItemCount() {
+                return  articles.size();
+            }
+
+        });
 
 
 

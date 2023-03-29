@@ -3,7 +3,7 @@ package algonquin.cst2335.a2335groupproject.data;
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
 
-import algonquin.cst2335.a2335groupproject.Articles;
+import algonquin.cst2335.a2335groupproject.nyt.Articles;
 import algonquin.cst2335.a2335groupproject.ArticlesDAO;
 
 

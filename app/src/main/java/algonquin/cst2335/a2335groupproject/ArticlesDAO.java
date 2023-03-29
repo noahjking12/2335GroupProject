@@ -6,7 +6,8 @@ import androidx.room.Query;
 
 import java.util.List;
 
-import algonquin.cst2335.a2335groupproject.data.ArticleViewModel;
+import algonquin.cst2335.a2335groupproject.nyt.ArticleSource;
+import algonquin.cst2335.a2335groupproject.nyt.Articles;
 
 @Dao
 public interface ArticlesDAO {

@@ -1,4 +1,4 @@
-package algonquin.cst2335.a2335groupproject;
+package algonquin.cst2335.a2335groupproject.nyt;
 
 
 import androidx.room.ColumnInfo;
@@ -16,7 +16,7 @@ public class Articles {
 
     boolean isSentButton;
 
-    Articles(String message, boolean isSentButton)
+    public Articles(String message, boolean isSentButton)
     {
         this.message=message;
         this.isSentButton=isSentButton;
