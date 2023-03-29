@@ -9,6 +9,12 @@
         app:showAsAction="always"/>
 
     <item
+        android:id="@+id/KittenItem"
+        android:title="Kitten Place"
+        app:showAsAction="always"
+        android:icon="@drawable/cat"/>
+
+    <item
         android:id="@+id/NYTItem"
         android:title="New York Times"
         app:showAsAction="always"
