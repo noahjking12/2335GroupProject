@@ -47,11 +47,11 @@ public class NewYorkTimes2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       ActivityNewYorkTimes2Binding binding = ActivityNewYorkTimes2Binding.inflate(getLayoutInflater());
-       ActivityNewYorkTimesBinding binding0=ActivityNewYorkTimesBinding.inflate(getLayoutInflater());
+        ActivityNewYorkTimes2Binding binding = ActivityNewYorkTimes2Binding.inflate(getLayoutInflater());
+        ActivityNewYorkTimesBinding binding0=ActivityNewYorkTimesBinding.inflate(getLayoutInflater());
         NytRecycleBinding binding1=NytRecycleBinding.inflate(getLayoutInflater());
         setSupportActionBar(binding.myToolbar);
-        setContentView(binding1.getRoot());
+        setContentView(binding.getRoot());
 
         viewModel = new ViewModelProvider(this).get(ArticleViewModel.class);
         articles= viewModel.articles.getValue();
@@ -60,66 +60,113 @@ public class NewYorkTimes2 extends AppCompatActivity {
             viewModel.articles.postValue(articles=new ArrayList<>());
         }
         queue = Volley.newRequestQueue(this);
-       // binding0.Searchbutton.setOnClickListener(clk ->{
+        // binding0.Searchbutton.setOnClickListener(clk ->{
         //    Intent fromPrevious = getIntent();
-            String topic = binding0.editText.getText().toString();
-                 //   fromPrevious.getStringExtra("Topic");
-            String API_KEY ="CM3Ch8PhugEL5BmEa9S2mzMFsJcAIFXc";
-            try {
-                url = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q="+ URLEncoder.encode(topic,"UTF-8")+"&api-key="+API_KEY;
-            } catch (UnsupportedEncodingException e) {
-                throw new RuntimeException(e);
-            }
+        String topic = binding0.editText.getText().toString();
+        //   fromPrevious.getStringExtra("Topic");
+        String API_KEY ="CM3Ch8PhugEL5BmEa9S2mzMFsJcAIFXc";
+        try {
+            url = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q="+ URLEncoder.encode(topic,"UTF-8")+"&api-key="+API_KEY;
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
 
-            JsonObjectRequest  request = new JsonObjectRequest(
-                    Request.Method.GET,
-                    url,
-                    null,
-                    (JSONObject response) -> {
-                        try {
+        JsonObjectRequest  request = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                (JSONObject response) -> {
+                    try {
 
-                            JSONObject mainObject = response.getJSONObject("response");
-                            JSONArray docsArray = mainObject.getJSONArray("docs");
-                            for(int i = 0 ; i < docsArray.length() ; i++){
-                                JSONObject p = docsArray.getJSONObject(i);
-                               // JSONObject headLine1 = mainObject.getJSONObject("docs");
+                        JSONObject mainObject = response.getJSONObject("response");
+                        JSONArray docsArray = mainObject.getJSONArray("docs");
+                        for(int i = 0 ; i < docsArray.length() ; i++){
+                            JSONObject p = docsArray.getJSONObject(i);
+                            // JSONObject headLine1 = mainObject.getJSONObject("docs");
 
                             //    String headline2 = p.getString("headline").;
 
                             JSONObject position0 = docsArray.getJSONObject(0);
                             String abstracts = position0.getString("abstract");
                             String webUrl = position0.getString("web_url");
-                          String byline = p.getJSONObject("byline").getString("original");
-                          String headline2 = p.getJSONObject("headline").getString("main");
-                        runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        binding1.webUrl.setText( webUrl);
-                                        binding1.byline.setText( byline);
-                                        binding1.abstracts.setText( abstracts);
-                                        binding1.headline.setText( headline2);
-
-                                    }
+                            String byline = p.getJSONObject("byline").getString("original");
+                            String headline2 = p.getJSONObject("headline").getString("main");
 
 
-                                });
-                                ArticleSource newArticle= new ArticleSource(headline2,byline,abstracts,webUrl);
-                                articles.add(newArticle);}
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    binding1.webUrl.setText( webUrl);
+                                    binding1.byline.setText( byline);
+                                    binding1.abstracts.setText( abstracts);
+                                    binding1.headline.setText( headline2);
 
-                            myAdapter.notifyItemInserted(articles.indexOf(articles));
+                                }
 
-                        } catch (JSONException e) {
-                            throw new RuntimeException(e);
-                        }
-                    },
-                    (error) -> {
-                        Toast.makeText(NewYorkTimes2.this, "Failed to retrieve data", Toast.LENGTH_SHORT).show();
-                    });
-            queue.add(request);
 
-      //  });
+                            });
+                            ArticleSource newArticle= new ArticleSource(headline2,byline,abstracts,webUrl);
+                            articles.add(newArticle);}
+
+                        myAdapter.notifyItemInserted(articles.indexOf(articles));
+
+
+
+//                            try {
+//                                // Check if this icon has already been downloaded, if so just load it
+//                                String pathname = getFilesDir() + "/" + icon1;
+//                                File file = new File( getFilesDir(), pathname);
+////                                    if (file.exists()) {
+////                                        bitmap = BitmapFactory.decodeFile(pathname);
+////                                    } else {
+//
+//                                ImageRequest imgReq = new ImageRequest(iconurl, new Response.Listener<Bitmap>() {
+//
+//                                    @Override
+//                                    public void onResponse(Bitmap image) {
+//                                        // Do something with loaded bitmap...
+//                                        bitmap=image;
+//
+//                                        FileOutputStream fOut = null;
+//                                        try {
+//                                            fOut = openFileOutput(icon1, Context.MODE_PRIVATE);
+//                                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+//                                            binding.icon.setImageBitmap(bitmap);
+//                                            fOut.flush();
+//                                            fOut.close();
+//
+//
+//                                        } catch (FileNotFoundException e) {
+//                                            throw new RuntimeException(e);
+//                                        } catch (IOException e) {
+//                                            throw new RuntimeException(e);
+//                                        }
+//                                    }
+//                                }, 1024, 1024, ImageView.ScaleType.CENTER, null,
+//                                        (error) -> {
+//                                            Toast.makeText(MainActivity.this, "No icon", Toast.LENGTH_SHORT).show();
+//
+//                                        });
+//                                queue.add(imgReq);
+////                                    }
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                            }
+
+
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                },
+                (error) -> {
+                    Toast.makeText(NewYorkTimes2.this, "Failed to retrieve data", Toast.LENGTH_SHORT).show();
+                });
+        queue.add(request);
+
+        //  });
 
         binding.recycleView.setLayoutManager(new LinearLayoutManager(this));
+
         binding.recycleView.setAdapter(myAdapter = new RecyclerView.Adapter<NewYorkTimes2.MyRowHolder2>() {
             @NonNull
             @Override
@@ -146,6 +193,7 @@ public class NewYorkTimes2 extends AppCompatActivity {
             }
 
         });
+
 
 
 
@@ -185,5 +233,5 @@ public class NewYorkTimes2 extends AppCompatActivity {
             urlText=itemView.findViewById(R.id.web_url);
             bylineText=itemView.findViewById(R.id.byline);
             abstractText=itemView.findViewById(R.id.abstracts);
-       }
+        }
     }}
