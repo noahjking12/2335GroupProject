@@ -15,6 +15,9 @@ public class Forecast {
     /** Date forecast was saved */
     private String date;
 
+    /** File name of the weather icon associated with Forecast */
+    private String icon;
+
     /** Description of the weather */
     private String description;
 
@@ -41,6 +44,7 @@ public class Forecast {
      * @param country The country of the forecast
      * @param city The city of the forecast
      * @param date The date of the forecast
+     * @param icon The name of the file of the icon associated with this forecast
      * @param description Description of the forecasts weather
      * @param temperature Temperature of the forecast
      * @param feelsLike What the temperature feels like
@@ -49,10 +53,11 @@ public class Forecast {
      * @param windSpeed Wind speed of the forecast
      * @param visibility Visibility of the forecast
      */
-    public Forecast(String country, String city, String date, String description, int temperature, int feelsLike, int humidity, int uvIndex, int windSpeed, int visibility) {
+    public Forecast(String country, String city, String date, String icon, String description, int temperature, int feelsLike, int humidity, int uvIndex, int windSpeed, int visibility) {
         this.country = country;
         this.city = city;
         this.date = date;
+        this.icon = icon;
         this.description = description;
         this.temperature = temperature;
         this.feelsLike = feelsLike;
@@ -82,6 +87,11 @@ public class Forecast {
     public String getDate() {
         return this.date;
     }
+
+    /** Getter for icon
+     * @return The file name of the icon for this forecast
+     */
+    public String getIcon() { return this.icon; }
 
     /** Getter for description
      * @return Description of the weather
