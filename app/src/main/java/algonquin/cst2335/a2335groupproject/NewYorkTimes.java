@@ -103,8 +103,10 @@ private ActivityNewYorkTimesBinding binding;
                 articles.add(new Articles(userInput,false));
                 myAdapter.notifyItemInserted(articles.size()-1);
                 //  binding.editText.setText("");
-                Intent nasaPage = new Intent(NewYorkTimes.this, NewYorkTimes2.class);
-                startActivity(nasaPage);}});
+                Intent secondPage = new Intent(NewYorkTimes.this, NewYorkTimes2.class);
+                String topic=binding.editText.getText().toString();
+                secondPage.putExtra("Topic",topic);
+                startActivity(secondPage);}});
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

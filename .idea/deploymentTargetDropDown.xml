@@ -7,27 +7,11 @@
         <deviceKey>
           <Key>
             <type value="VIRTUAL_DEVICE_PATH" />
-<<<<<<< HEAD
-<<<<<<< HEAD
-            <value value="C:\Users\noahj\.android\avd\Pixel_2_API_27.avd" />
-=======
-            <value value="C:\Users\Administrator\.android\avd\Pixel_4a_API_31.avd" />
->>>>>>> origin/NewYorkTmes
-=======
-            <value value="C:\Users\Administrator\.android\avd\Pixel_4a_API_31.avd" />
->>>>>>> origin/NasaPhoto
+            <value value="C:\Users\Administrator\.android\avd\Pixel_2_API_27.avd" />
           </Key>
         </deviceKey>
       </Target>
     </targetSelectedWithDropDown>
-<<<<<<< HEAD
-<<<<<<< HEAD
-    <timeTargetWasSelectedWithDropDown value="2023-03-17T14:19:35.254075900Z" />
-=======
-    <timeTargetWasSelectedWithDropDown value="2023-03-21T15:43:13.284541600Z" />
->>>>>>> origin/NewYorkTmes
-=======
-    <timeTargetWasSelectedWithDropDown value="2023-03-21T20:15:01.096889500Z" />
->>>>>>> origin/NasaPhoto
+    <timeTargetWasSelectedWithDropDown value="2023-03-29T15:28:34.589887900Z" />
   </component>
 </project>
