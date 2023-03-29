@@ -59,6 +59,7 @@ public class SecondActivity extends AppCompatActivity {
         binding2 = ActivitySecondBinding.inflate(getLayoutInflater());
         setContentView(binding2.getRoot());
 
+        setSupportActionBar(binding2.myToolbar);
 
         binding2.recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -230,6 +231,7 @@ public class SecondActivity extends AppCompatActivity {
                 break;
         }
         return true;
+
     }
 
     public class myCatHolder extends RecyclerView.ViewHolder{
