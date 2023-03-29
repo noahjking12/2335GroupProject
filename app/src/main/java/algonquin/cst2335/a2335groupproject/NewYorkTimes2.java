@@ -103,51 +103,10 @@ public class NewYorkTimes2 extends AppCompatActivity {
 
 
                                 });
-                            }
+                                ArticleSource newArticle= new ArticleSource(headline2,byline,abstracts,webUrl);
+                                articles.add(newArticle);}
 
-
-
-//                            try {
-//                                // Check if this icon has already been downloaded, if so just load it
-//                                String pathname = getFilesDir() + "/" + icon1;
-//                                File file = new File( getFilesDir(), pathname);
-////                                    if (file.exists()) {
-////                                        bitmap = BitmapFactory.decodeFile(pathname);
-////                                    } else {
-//
-//                                ImageRequest imgReq = new ImageRequest(iconurl, new Response.Listener<Bitmap>() {
-//
-//                                    @Override
-//                                    public void onResponse(Bitmap image) {
-//                                        // Do something with loaded bitmap...
-//                                        bitmap=image;
-//
-//                                        FileOutputStream fOut = null;
-//                                        try {
-//                                            fOut = openFileOutput(icon1, Context.MODE_PRIVATE);
-//                                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
-//                                            binding.icon.setImageBitmap(bitmap);
-//                                            fOut.flush();
-//                                            fOut.close();
-//
-//
-//                                        } catch (FileNotFoundException e) {
-//                                            throw new RuntimeException(e);
-//                                        } catch (IOException e) {
-//                                            throw new RuntimeException(e);
-//                                        }
-//                                    }
-//                                }, 1024, 1024, ImageView.ScaleType.CENTER, null,
-//                                        (error) -> {
-//                                            Toast.makeText(MainActivity.this, "No icon", Toast.LENGTH_SHORT).show();
-//
-//                                        });
-//                                queue.add(imgReq);
-////                                    }
-//                            } catch (Exception e) {
-//                                e.printStackTrace();
-//                            }
-
+                            myAdapter.notifyItemInserted(articles.indexOf(articles));
 
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
