@@ -21,7 +21,7 @@ public class ArticleSource {
     String webLink;
 
 
-    ArticleSource(String headline, String byline,String abstracts,String webLink)
+    public ArticleSource(String headline, String byline, String abstracts, String webLink)
     {
         this.headline=headline;
         this.byline=byline;

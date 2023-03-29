@@ -51,7 +51,7 @@ public class NewYorkTimes2 extends AppCompatActivity {
        ActivityNewYorkTimesBinding binding0=ActivityNewYorkTimesBinding.inflate(getLayoutInflater());
         NytRecycleBinding binding1=NytRecycleBinding.inflate(getLayoutInflater());
         setSupportActionBar(binding.myToolbar);
-        setContentView(binding1.getRoot());
+        setContentView(binding.getRoot());
 
         viewModel = new ViewModelProvider(this).get(ArticleViewModel.class);
         articles= viewModel.articles.getValue();
@@ -91,6 +91,8 @@ public class NewYorkTimes2 extends AppCompatActivity {
                             String webUrl = position0.getString("web_url");
                           String byline = p.getJSONObject("byline").getString("original");
                           String headline2 = p.getJSONObject("headline").getString("main");
+
+
                         runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -103,7 +105,10 @@ public class NewYorkTimes2 extends AppCompatActivity {
 
 
                                 });
-                            }
+                                ArticleSource newArticle= new ArticleSource(headline2,byline,abstracts,webUrl);
+                                articles.add(newArticle);}
+
+                            myAdapter.notifyItemInserted(articles.indexOf(articles));
 
 
 
@@ -161,6 +166,7 @@ public class NewYorkTimes2 extends AppCompatActivity {
       //  });
 
         binding.recycleView.setLayoutManager(new LinearLayoutManager(this));
+
         binding.recycleView.setAdapter(myAdapter = new RecyclerView.Adapter<NewYorkTimes2.MyRowHolder2>() {
             @NonNull
             @Override
@@ -187,6 +193,7 @@ public class NewYorkTimes2 extends AppCompatActivity {
             }
 
         });
+
 
 
 
