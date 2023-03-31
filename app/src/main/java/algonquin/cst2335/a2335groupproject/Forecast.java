@@ -1,41 +1,59 @@
 package algonquin.cst2335.a2335groupproject;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
-/** Represents a single forecast
+/** Represents a single Forecast in the database
  * @author Noah King
  * @version 1.0
  */
+@Entity
 public class Forecast {
 
+    /** Auto-generated identifier in the database */
+    @PrimaryKey (autoGenerate = true)
+    @ColumnInfo(name = "id")
+    public long id;
+
     /** City of the forecast */
-    private String city;
+    @ColumnInfo(name = "city")
+    protected String city;
 
     /** Date forecast was saved */
-    private String date;
+    @ColumnInfo(name = "date")
+    protected String date;
 
     /** File name of the weather icon associated with Forecast */
-    private String icon;
+    @ColumnInfo(name = "icon")
+    protected String icon;
 
     /** Description of the weather */
-    private String description;
+    @ColumnInfo(name = "description")
+    protected String description;
 
     /** Temperature of the forecast */
-    private int temperature;
+    @ColumnInfo(name = "temperature")
+    protected int temperature;
 
     /** What the temperature feels like */
-    private int feelsLike;
+    @ColumnInfo(name = "feelsLike")
+    protected int feelsLike;
 
     /** The forecasts humidity */
-    private int humidity;
+    @ColumnInfo(name = "humidity")
+    protected int humidity;
 
     /** The forecasts UV index */
-    private int uvIndex;
+    @ColumnInfo(name = "uvIndex")
+    protected int uvIndex;
 
     /** The forecast wind speed */
-    private int windSpeed;
+    @ColumnInfo(name = "windSpeed")
+    protected int windSpeed;
 
     /** The forecasts visibility */
-    private int visibility;
-
+    @ColumnInfo(name = "visibility")
+    protected int visibility;
 
     /** Constructor for new Forecast's
      * @param city The city of the forecast

@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,13 +21,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import algonquin.cst2335.a2335groupproject.Forecast;
+import algonquin.cst2335.a2335groupproject.ForecastDAO;
+import algonquin.cst2335.a2335groupproject.ForecastDatabase;
 import algonquin.cst2335.a2335groupproject.ForecastDetailsFragment;
 import algonquin.cst2335.a2335groupproject.MainActivity;
 import algonquin.cst2335.a2335groupproject.NasaPhotos;
@@ -55,9 +61,21 @@ public class WeatherActivity extends AppCompatActivity {
     /** List of users saved forecasts */
     ArrayList<Forecast> savedForecasts;
 
+    /** DAO for interacting with the Forecast database */
+    ForecastDAO forecastDAO;
+
+    /** Keeps track of whether or not onResume should check for saved a new saved Forecast.
+     * Prevents errors caused by checking for a new saved Forecast when it is not possible.
+     */
+    boolean checkForSavedForecast = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Get a DAO for the Forecast database
+        ForecastDatabase db = Room.databaseBuilder(getApplicationContext(), ForecastDatabase.class, "weatherstack").build();
+        forecastDAO = db.forecastDAO();
 
         binding = ActivityWeatherBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -69,12 +87,20 @@ public class WeatherActivity extends AppCompatActivity {
         // If savedForecasts has never been set, post to it an empty ArrayList
         if (savedForecasts == null) {
             weatherModel.savedForecasts.postValue( savedForecasts = new ArrayList<Forecast>());
+
+            // Load all saved Forecasts
+            Executor thread = Executors.newSingleThreadExecutor();
+            thread.execute(() -> {
+                savedForecasts.addAll(forecastDAO.getAllForecasts()); // Get all Forecasts from Forecast database
+                runOnUiThread(() -> binding.forecastsRecycleView.setAdapter(myAdapter));
+            });
         }
 
         // Specify a single column scrolling vertically for saved forecasts
         binding.forecastsRecycleView.setLayoutManager(new LinearLayoutManager(this));
 
-        binding.forecastsRecycleView.setAdapter(myAdapter = new RecyclerView.Adapter<MyRowHolder>() {
+        // Only call this after loading all saved forecasts
+        myAdapter = new RecyclerView.Adapter<MyRowHolder>() {
             @NonNull
             @Override
             public MyRowHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -107,7 +133,7 @@ public class WeatherActivity extends AppCompatActivity {
                 return savedForecasts.size();
             }
 
-        });
+        };
 
         // Load city search bar with the last city search by the user
         SharedPreferences prefs = getSharedPreferences("MyWeatherPrefs", Context.MODE_PRIVATE);
@@ -140,17 +166,32 @@ public class WeatherActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().add(R.id.weatherFragmentLocation, forecastFragment).addToBackStack("").commit();
         });
 
-        // *****************************************************
-        // * TEST DATA FOR SAVED FORECASTS
-
-        savedForecasts.add(new Forecast("ottawa", "Jan 17th", "wsymbol_0033_cloudy_with_light_rain_night.png", "Sunny",15, 13, 60, 1, 10, 10));
-        savedForecasts.add(new Forecast("nyc", "Aug 30th", "wsymbol_0033_cloudy_with_light_rain_night.png", "Sunny",15, 13, 60, 1, 10, 10));
-        savedForecasts.add(new Forecast("mount pearl", "Dec. 25th", "wsymbol_0033_cloudy_with_light_rain_night.png", "Sunny",15, 13, 60, 1, 10, 10));
-        myAdapter.notifyDataSetChanged();
-
-
-        // *****************************************************
         setSupportActionBar(binding.weatherToolbar);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Check if a Forecast was just saved to the database
+        Intent fromPrevious = getIntent();
+        boolean forecastWasSaved = fromPrevious.getBooleanExtra("SavedAForecast", false);
+
+        if (checkForSavedForecast == true && forecastWasSaved == true) { // If Forecast was just saved, notify the recycler view's adapter
+            myAdapter.notifyItemInserted(savedForecasts.size() - 1);
+
+            // Get string from res/string
+            String forecastSaved = getResources().getString(R.string.forecast_saved);
+
+            // Show a Toast stating that the forecast was successfully saved
+            Context context = getApplicationContext();
+            CharSequence text = forecastSaved;
+            int duration = Toast.LENGTH_SHORT;
+            Toast.makeText(context, text, duration).show();
+
+            checkForSavedForecast = false; // Don't check for a new saved Forecast unless onCreate is called again
+        }
+
     }
 
     @Override
@@ -247,7 +288,8 @@ public class WeatherActivity extends AppCompatActivity {
 
             // Activate delete button
             forecastDeleteBtn.setOnClickListener(clk -> {
-                int position = getAbsoluteAdapterPosition(); // position of forecast in array list
+                int position = getAbsoluteAdapterPosition(); // Position of forecast in array list
+                Forecast selectedForecast = savedForecasts.get(position);
 
                 // Get strings from res/strings
                 String deleteMsg = getResources().getString(R.string.delete_forecast_msg);
@@ -262,7 +304,13 @@ public class WeatherActivity extends AppCompatActivity {
                     .setTitle(deleteTitle)
                     .setNegativeButton(noBtn, (dialog, cl) -> {})
                     .setPositiveButton(yesBtn, (dialog, cl) -> {
+
                         // Remove forecast if they click "Yes"
+                        Executor thread = Executors.newSingleThreadExecutor();
+                        thread.execute(() -> {
+                            forecastDAO.deleteForecast(selectedForecast);
+                        });
+
                         savedForecasts.remove(position);
                         myAdapter.notifyItemRemoved(position);
 

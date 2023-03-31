@@ -59,9 +59,9 @@
     <string name="delete_forecast_title">Delete saved forecast:</string>
     <string name="forecast_deleted">Forecast successfully deleted!</string>
     <string name="weather_response_instructions">To save the forecast, tap on the \"Save button\".</string>
-    <string name="forecast_saved">Forecast successfully saved for:</string>
+    <string name="forecast_saved">Forecast successfully saved!</string>
     <string name="forecast_error">Failed to retrieve forecast for:</string>
     <string name="visibility">"Visibility: "</string>
-    <string name="uv_index">UV index:</string>
+    <string name="uv_index">"UV index: "</string>
 
 </resources>

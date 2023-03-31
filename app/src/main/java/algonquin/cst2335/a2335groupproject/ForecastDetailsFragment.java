@@ -29,7 +29,7 @@ public class ForecastDetailsFragment extends Fragment {
     Forecast selected;
 
     /** Constructs a new ForecastDetailsFragment using the Forecast you wish to display
-     * @param selected
+     * @param selected The Forecast that was selected to be loaded into the fragment
      */
     public ForecastDetailsFragment(Forecast selected) {
         this.selected = selected;
@@ -50,13 +50,28 @@ public class ForecastDetailsFragment extends Fragment {
 
         // Display the selected forecasts data in the fragment
         binding.fragmentCityName.setText(selected.getCity());
+        binding.fragmentCityName.setVisibility(View.VISIBLE);
+
         binding.fragmentWeatherDesc.setText(selected.getDescription());
+        binding.fragmentWeatherDesc.setVisibility(View.VISIBLE);
+
         binding.fragmentTemp.setText(Integer.toString(selected.getTemperature()));
+        binding.fragmentTemp.setVisibility(View.VISIBLE);
+
         binding.fragmentFeelsLike.setText(resFeelsLike + Integer.toString(selected.getFeelsLike()));
+        binding.fragmentFeelsLike.setVisibility(View.VISIBLE);
+
         binding.fragmentHumidity.setText(resHumidity + Integer.toString(selected.getHumidity()) + "%");
+        binding.fragmentHumidity.setVisibility(View.VISIBLE);
+
         binding.fragmentUvIndex.setText(resUvIndex + Integer.toString(selected.getUvIndex()));
+        binding.fragmentUvIndex.setVisibility(View.VISIBLE);
+
         binding.fragmentWindSpeed.setText(resWindSpeed + Integer.toString(selected.getWindSpeed()) + "km/h");
+        binding.fragmentWindSpeed.setVisibility(View.VISIBLE);
+
         binding.fragmentVisibility.setText(resVisibility + Integer.toString(selected.getVisibility()));
+        binding.fragmentVisibility.setVisibility(View.VISIBLE);
 
         // Load icon from files and display it
         String pathname = getContext().getFilesDir() + "/" + selected.getIcon();
@@ -65,6 +80,7 @@ public class ForecastDetailsFragment extends Fragment {
         if (file.exists()) {
             Bitmap forecastIcon = BitmapFactory.decodeFile(pathname);
             binding.fragmentWeatherIcon.setImageBitmap(forecastIcon);
+            binding.fragmentWeatherIcon.setVisibility(View.VISIBLE);
         } // If can't find icon, display without
 
         return binding.getRoot();
