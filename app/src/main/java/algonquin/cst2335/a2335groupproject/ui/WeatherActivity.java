@@ -27,7 +27,12 @@ import java.io.File;
 import java.util.ArrayList;
 
 import algonquin.cst2335.a2335groupproject.Forecast;
+import algonquin.cst2335.a2335groupproject.ForecastDetailsFragment;
+import algonquin.cst2335.a2335groupproject.MainActivity;
+import algonquin.cst2335.a2335groupproject.NasaPhotos;
+import algonquin.cst2335.a2335groupproject.NewYorkTimes;
 import algonquin.cst2335.a2335groupproject.R;
+import algonquin.cst2335.a2335groupproject.SecondActivity;
 import algonquin.cst2335.a2335groupproject.data.WeatherActivityViewModel;
 import algonquin.cst2335.a2335groupproject.databinding.ActivityWeatherBinding;
 import algonquin.cst2335.a2335groupproject.databinding.SavedForecastBinding;
@@ -82,12 +87,10 @@ public class WeatherActivity extends AppCompatActivity {
             public void onBindViewHolder(@NonNull MyRowHolder holder, int position) {
                 // Set values for objects in saved forecast row
                 Forecast savedForecast = savedForecasts.get(position);
-                holder.forecastCountry.setText(savedForecast.getCountry());
                 holder.forecastCity.setText(savedForecast.getCity());
                 holder.forecastDate.setText(savedForecast.getDate());
                 holder.forecastTemp.setText(Integer.toString(savedForecast.getTemperature()));
 
-                //*************************
                 // Load icon from files and display it
                 String pathname = getFilesDir() + "/" + savedForecast.getIcon();
                 File file = new File(pathname);
@@ -97,7 +100,6 @@ public class WeatherActivity extends AppCompatActivity {
                     holder.forecastIcon.setImageBitmap(forecastIcon);
                 } // If can't find icon, display without
 
-                //*************************
             }
 
             @Override
@@ -132,12 +134,18 @@ public class WeatherActivity extends AppCompatActivity {
             }
         });
 
+        // When a saved forecast is clicked, load it into a fragment
+        weatherModel.selectedForecast.observe(this, (selectedForecast) -> {
+            ForecastDetailsFragment forecastFragment = new ForecastDetailsFragment(selectedForecast);
+            getSupportFragmentManager().beginTransaction().add(R.id.weatherFragmentLocation, forecastFragment).addToBackStack("").commit();
+        });
+
         // *****************************************************
         // * TEST DATA FOR SAVED FORECASTS
 
-        savedForecasts.add(new Forecast("canada", "ottawa", "Jan 17th", "wsymbol_0033_cloudy_with_light_rain_night.png", "Sunny",15, 13, 60, 1, 10, 10));
-        savedForecasts.add(new Forecast("u.s", "nyc", "Aug 30th", "wsymbol_0033_cloudy_with_light_rain_night.png", "Sunny",15, 13, 60, 1, 10, 10));
-        savedForecasts.add(new Forecast("canada", "mount pearl", "Dec. 25th", "wsymbol_0033_cloudy_with_light_rain_night.png", "Sunny",15, 13, 60, 1, 10, 10));
+        savedForecasts.add(new Forecast("ottawa", "Jan 17th", "wsymbol_0033_cloudy_with_light_rain_night.png", "Sunny",15, 13, 60, 1, 10, 10));
+        savedForecasts.add(new Forecast("nyc", "Aug 30th", "wsymbol_0033_cloudy_with_light_rain_night.png", "Sunny",15, 13, 60, 1, 10, 10));
+        savedForecasts.add(new Forecast("mount pearl", "Dec. 25th", "wsymbol_0033_cloudy_with_light_rain_night.png", "Sunny",15, 13, 60, 1, 10, 10));
         myAdapter.notifyDataSetChanged();
 
 
@@ -149,7 +157,7 @@ public class WeatherActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
 
-        getMenuInflater().inflate(R.menu.weather_menu, menu);
+        getMenuInflater().inflate(R.menu.weather_menu, menu); // inflate toolbar
 
         return true;
     }
@@ -172,6 +180,28 @@ public class WeatherActivity extends AppCompatActivity {
                         .show();
 
                 break;
+
+            case R.id.kitten_bar_btn:
+                // Send user to Kitten Images app
+                Intent kittenPage = new Intent(WeatherActivity.this, SecondActivity.class);
+                startActivity( kittenPage );
+
+                break;
+
+            case R.id.nyt_bar_btn:
+                // Send user to New York Times app
+                Intent nytPage = new Intent(WeatherActivity.this, NewYorkTimes.class);
+                startActivity( nytPage );
+
+                break;
+
+            case R.id.nasa_bar_btn:
+                // Send user to Nasa photos app
+                Intent nasaPage = new Intent(WeatherActivity.this, NasaPhotos.class);
+                startActivity( nasaPage );
+
+                break;
+
         }
 
         return true;
@@ -184,9 +214,6 @@ public class WeatherActivity extends AppCompatActivity {
     class MyRowHolder extends RecyclerView.ViewHolder {
         /** Delete button for the forecast */
         Button forecastDeleteBtn;
-
-        /** Country of the forecast */
-        TextView forecastCountry;
 
         /** City of the forecast */
         TextView forecastCity;
@@ -205,11 +232,18 @@ public class WeatherActivity extends AppCompatActivity {
 
             // Access views for the row
             forecastDeleteBtn = itemView.findViewById(R.id.forecastDeleteBtn);
-            forecastCountry = itemView.findViewById(R.id.forecastCountry);
             forecastCity = itemView.findViewById(R.id.forecastCity);
             forecastDate = itemView.findViewById(R.id.forecastDate);
             forecastTemp = itemView.findViewById(R.id.forecastTemp);
             forecastIcon = itemView.findViewById(R.id.forecastIcon);
+
+            // Register a click event on the forecast to load a fragment that displays it
+            itemView.setOnClickListener(clk -> {
+                int position = getAbsoluteAdapterPosition();
+                Forecast selected = savedForecasts.get(position);
+
+                weatherModel.selectedForecast.postValue(selected);
+            });
 
             // Activate delete button
             forecastDeleteBtn.setOnClickListener(clk -> {

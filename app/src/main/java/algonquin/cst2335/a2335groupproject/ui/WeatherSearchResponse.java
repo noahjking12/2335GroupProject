@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -32,7 +33,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import algonquin.cst2335.a2335groupproject.Forecast;
+import algonquin.cst2335.a2335groupproject.NasaPhotos;
+import algonquin.cst2335.a2335groupproject.NewYorkTimes;
 import algonquin.cst2335.a2335groupproject.R;
+import algonquin.cst2335.a2335groupproject.SecondActivity;
 import algonquin.cst2335.a2335groupproject.databinding.ActivityWeatherBinding;
 import algonquin.cst2335.a2335groupproject.databinding.ActivityWeatherSearchResponseBinding;
 
@@ -88,10 +92,6 @@ public class WeatherSearchResponse extends AppCompatActivity {
                 null,
                 (response) -> {
                     try {
-                        // Get country of forecast
-                        JSONObject location = response.getJSONObject("location");
-                        String country = location.getString("country");
-
                         JSONObject currentForecast = response.getJSONObject("current"); // Current forecast data
 
                         // Get all require Forecast data
@@ -160,7 +160,7 @@ public class WeatherSearchResponse extends AppCompatActivity {
                         String date = sdf.format(new Date());
 
                         // Construct the Forecast object using retrieved data
-                        searchedForecast = new Forecast(country, cityName, date, icon, description, temperature, feelsLike, humidity, uvIndex, windSpeed, visibility);
+                        searchedForecast = new Forecast(cityName, date, icon, description, temperature, feelsLike, humidity, uvIndex, windSpeed, visibility);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -181,7 +181,7 @@ public class WeatherSearchResponse extends AppCompatActivity {
 
             // Show a Toast stating that the forecast was successfully saved
             Context context = getApplicationContext();
-            CharSequence text = forecastSaved + cityName;
+            CharSequence text = forecastSaved + " " + cityName;
             int duration = Toast.LENGTH_SHORT;
             Toast.makeText(context, text, duration).show();
         });
@@ -215,6 +215,27 @@ public class WeatherSearchResponse extends AppCompatActivity {
                         .setTitle(weatherHelpTitle)
                         .create()
                         .show();
+
+                break;
+
+            case R.id.kitten_bar_btn:
+                // Send user to Kitten Images app
+                Intent kittenPage = new Intent(WeatherSearchResponse.this, SecondActivity.class);
+                startActivity( kittenPage );
+
+                break;
+
+            case R.id.nyt_bar_btn:
+                // Send user to New York Times app
+                Intent nytPage = new Intent(WeatherSearchResponse.this, NewYorkTimes.class);
+                startActivity( nytPage );
+
+                break;
+
+            case R.id.nasa_bar_btn:
+                // Send user to Nasa photos app
+                Intent nasaPage = new Intent(WeatherSearchResponse.this, NasaPhotos.class);
+                startActivity( nasaPage );
 
                 break;
         }

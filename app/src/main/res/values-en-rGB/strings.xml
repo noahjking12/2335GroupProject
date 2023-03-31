@@ -24,4 +24,7 @@
     <string name="forecast_error">"Failed to retrieve forecast: "</string>
     <string name="visibility">"Visibility: "</string>
     <string name="uv_index">"UV index: "</string>
+    <string name="kitten_bar">Kitten Images</string>
+    <string name="nasa_bar">Nasa Images</string>
+    <string name="nyt_bar">New York Times</string>
 </resources>

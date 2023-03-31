@@ -3,6 +3,21 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/kitten_bar_btn"
+        android:title="@string/kitten_bar"
+        android:icon="@drawable/cat"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/nyt_bar_btn"
+        android:title="@string/nyt_bar"
+        android:icon="@drawable/nyt"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/nasa_bar_btn"
+        android:title="@string/nasa_bar"
+        android:icon="@drawable/nasa"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/weatherHelp"
         android:title="@string/help"
         android:icon="@drawable/help_icon"

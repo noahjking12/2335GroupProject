@@ -52,6 +52,9 @@
     <string name="yes_button">Yes</string>
     <string name="no_button">No</string>
     <string name="weather_help">Instructions</string>
+    <string name="kitten_bar">Kitten Images</string>
+    <string name="nasa_bar">Nasa Images</string>
+    <string name="nyt_bar">New York Times</string>
     <string name="delete_forecast_msg">Do you want to delete this forecast?</string>
     <string name="delete_forecast_title">Delete saved forecast:</string>
     <string name="forecast_deleted">Forecast successfully deleted!</string>

@@ -6,9 +6,6 @@ package algonquin.cst2335.a2335groupproject;
  */
 public class Forecast {
 
-    /** Country of the forecast */
-    private String country;
-
     /** City of the forecast */
     private String city;
 
@@ -41,7 +38,6 @@ public class Forecast {
 
 
     /** Constructor for new Forecast's
-     * @param country The country of the forecast
      * @param city The city of the forecast
      * @param date The date of the forecast
      * @param icon The name of the file of the icon associated with this forecast
@@ -53,8 +49,7 @@ public class Forecast {
      * @param windSpeed Wind speed of the forecast
      * @param visibility Visibility of the forecast
      */
-    public Forecast(String country, String city, String date, String icon, String description, int temperature, int feelsLike, int humidity, int uvIndex, int windSpeed, int visibility) {
-        this.country = country;
+    public Forecast(String city, String date, String icon, String description, int temperature, int feelsLike, int humidity, int uvIndex, int windSpeed, int visibility) {
         this.city = city;
         this.date = date;
         this.icon = icon;
@@ -65,13 +60,6 @@ public class Forecast {
         this.uvIndex = uvIndex;
         this.windSpeed = windSpeed;
         this.visibility = visibility;
-    }
-
-    /** Getter for country
-     * @return The country of the forecast
-     */
-    public String getCountry() {
-        return this.country;
     }
 
     /** Getter for city

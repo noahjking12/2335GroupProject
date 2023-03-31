@@ -6,24 +6,15 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/forecastCountry"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="country"
-        app:layout_constraintStart_toEndOf="@+id/forecastDeleteBtn"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/forecastCity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
         android:text="city"
         android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="@+id/forecastCountry"
-        app:layout_constraintTop_toBottomOf="@+id/forecastCountry" />
+        app:layout_constraintBottom_toBottomOf="@+id/forecastDeleteBtn"
+        app:layout_constraintStart_toEndOf="@+id/forecastDeleteBtn"
+        app:layout_constraintTop_toTopOf="@+id/forecastDeleteBtn" />
 
     <TextView
         android:id="@+id/forecastDate"

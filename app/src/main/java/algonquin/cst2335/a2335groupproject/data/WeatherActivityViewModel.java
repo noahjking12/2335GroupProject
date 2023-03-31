@@ -15,4 +15,7 @@ public class WeatherActivityViewModel extends ViewModel {
 
     /** Used to store saved forecast data for WeatherActivity */
     public MutableLiveData<ArrayList<Forecast>> savedForecasts = new MutableLiveData<>();
+
+    /** Used to store the selected forecast that is being loaded into a fragment */
+    public MutableLiveData<Forecast> selectedForecast = new MutableLiveData< >();
 }
