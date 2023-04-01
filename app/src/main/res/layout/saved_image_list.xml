@@ -6,30 +6,23 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/catImageList"
+        android:id="@+id/savedImageList"
         android:layout_width="250dp"
         android:layout_height="250dp"
-        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_camera" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/pictureId"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/kitten_fragmentTriger"
-        app:layout_constraintStart_toStartOf="@+id/catImageList"
-        app:layout_constraintTop_toBottomOf="@+id/catImageList" />
 
     <Button
         android:id="@+id/remove_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/kitten_add_btn"
+        android:text="@string/kitten_remove_btn"
         android:textColor="#37474F"
-        app:layout_constraintStart_toStartOf="@+id/pictureId"
-        app:layout_constraintTop_toBottomOf="@+id/pictureId" />
+        app:layout_constraintStart_toStartOf="@+id/savedImageList"
+        app:layout_constraintTop_toBottomOf="@+id/savedImageList" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,12 +3,14 @@ package algonquin.cst2335.a2335groupproject;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -17,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -29,13 +32,20 @@ import com.google.android.material.snackbar.Snackbar;
 
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
 import android.util.Base64;
 
+import algonquin.cst2335.a2335groupproject.data.CatImageDatabase;
 import algonquin.cst2335.a2335groupproject.data.CatListViewModel;
 import algonquin.cst2335.a2335groupproject.databinding.ActivitySecondBinding;
 import algonquin.cst2335.a2335groupproject.databinding.ImageListBinding;
+import algonquin.cst2335.a2335groupproject.databinding.KittenDetailsFragmentBinding;
+import algonquin.cst2335.a2335groupproject.kitten.CatList;
 import algonquin.cst2335.a2335groupproject.ui.WeatherActivity;
 
 public class SecondActivity extends AppCompatActivity {
@@ -51,12 +61,19 @@ public class SecondActivity extends AppCompatActivity {
     private CatListViewModel catModel;
     private SharedPreferences myPreferences;
 
+    CatList clObj;
+    CatDAO catDAO;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding2 = ActivitySecondBinding.inflate(getLayoutInflater());
+
+        CatImageDatabase db = Room.databaseBuilder(getApplicationContext(), CatImageDatabase.class,"myFavourites").build();
+        catDAO = db.catDAO();
+
         setContentView(binding2.getRoot());
 
         setSupportActionBar(binding2.myToolbar);
@@ -70,6 +87,7 @@ public class SecondActivity extends AppCompatActivity {
         String heightFound = myPreferences.getString("Height","");
         binding2.widthEdit.setText(widthFound);
         binding2.heightEdit.setText(heightFound);
+
 
         binding2.saveButton.setOnClickListener( click -> {
 
@@ -101,6 +119,8 @@ public class SecondActivity extends AppCompatActivity {
 
 
         catModel = new ViewModelProvider(this).get(CatListViewModel.class);
+
+
         imageUrlList = catModel.catViewModel.getValue();
 
         if (imageUrlList == null)
@@ -114,6 +134,8 @@ public class SecondActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String width = binding2.widthEdit.getText().toString();
                 String height = binding2.heightEdit.getText().toString();
+                SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd-MMM-yyyy hh-mm-ss a");
+                String currentDateandTime = sdf.format(new Date());
                 String url = "https://placekitten.com/"+ width + "/" + height;
 
                 // instantiate the RequestQueue
@@ -131,7 +153,7 @@ public class SecondActivity extends AppCompatActivity {
 
                         // add the base64-encoded image URL to the list
                         String catUrl = "data:image/jpeg;base64," + base64Image;
-                        CatList clObj = new CatList(catUrl, width, height);
+                        clObj = new CatList(catUrl, width, height, currentDateandTime);
                         imageUrlList.add(clObj);
                         myAdapter.notifyItemInserted(imageUrlList.size() - 1);
                     }
@@ -141,10 +163,7 @@ public class SecondActivity extends AppCompatActivity {
                 queue.add(request);
             }
         });
-//                String catUrl = url;
-//                CatList clObj = new CatList(catUrl, width, height);
-//                imageUrlList.add(clObj);
-//                myAdapter.notifyItemInserted(imageUrlList.size() - 1);
+
 
         binding2.recyclerView.setAdapter(myAdapter = new RecyclerView.Adapter<myCatHolder>() {
             @NonNull
@@ -165,12 +184,33 @@ public class SecondActivity extends AppCompatActivity {
                         .into(holder.catImageList);
 
                 holder.catImageList.setOnClickListener(new View.OnClickListener() {
-                    String toastWidth = getResources().getString(R.string.kitten_toastMessage_width);
-                    String toastHeight = getResources().getString(R.string.kitten_toastMessage_height);
+
                     @Override
                     public void onClick(View v) {
-                        String toastMessage = toastWidth + " " + imageOnRow.getWidth() + toastHeight + " " + imageOnRow.getHeight();
-                        Toast.makeText(v.getContext(), toastMessage, Toast.LENGTH_LONG).show();
+                        AppCompatActivity activity = (AppCompatActivity) v.getContext();
+                        CatImageDetailsFragment catFragment = new CatImageDetailsFragment(imageOnRow);
+                        activity.getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.fragmentLocation, catFragment)
+                                .addToBackStack("")
+                                .commit();
+                    }
+                });
+
+                holder.add_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Executor thread = Executors.newSingleThreadExecutor();
+                        thread.execute(()->{
+                            clObj = new CatList(imageOnRow.getCatUrl(), imageOnRow.getWidth(), imageOnRow.getHeight(), imageOnRow.getDateSaved());
+                            imageUrlList.add(clObj);
+                            catDAO.insertImage(clObj);
+                            clObj.getId();
+                            runOnUiThread(()->{
+                                String imageSaved = getResources().getString(R.string.kitten_imageSavedInfo);
+                                Toast.makeText(v.getContext(), imageSaved, Toast.LENGTH_LONG).show();
+                            });
+
+                        });
                     }
                 });
 
@@ -188,6 +228,7 @@ public class SecondActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_bar, menu);
+        getMenuInflater().inflate(R.menu.kitten_favourites_menu, menu);
         return true;
     }
 
@@ -229,6 +270,11 @@ public class SecondActivity extends AppCompatActivity {
                 startActivity(weatherPage);
 
                 break;
+
+            case R.id.view_favourites:
+                // go to view favourites page
+                Intent kitterHolder2 = new Intent(SecondActivity.this, KittenHolder2.class);
+                startActivity(kitterHolder2);
         }
         return true;
 
@@ -236,9 +282,18 @@ public class SecondActivity extends AppCompatActivity {
 
     public class myCatHolder extends RecyclerView.ViewHolder{
         public ImageView catImageList;
+        public Button add_btn;
+
         public myCatHolder(@NonNull View itemView) {
             super(itemView);
+
+            itemView.setOnClickListener(click ->{
+                int whichImage = getAbsoluteAdapterPosition();
+                CatList selected = imageUrlList.get(whichImage);
+                catModel.selectedImage.postValue(selected);
+            });
             catImageList = itemView.findViewById(R.id.catImageList);
+            add_btn = itemView.findViewById(R.id.remove_btn);
         }
     }
 
