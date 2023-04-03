@@ -68,20 +68,16 @@ public class NewYorkTimes2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // get a database
-        ArticleSourceDatabase db = Room.databaseBuilder(getApplicationContext(), ArticleSourceDatabase.class, "myMessageDatabase").build();
-        mDAO = db.cmDAO();
-        //
-        ArticleDatabase database = Room.databaseBuilder(getApplicationContext(), ArticleDatabase.class, "myTopiceDatabase").build();
-        aDAO = database.cmDAO();
-
         ActivityNewYorkTimes2Binding binding = ActivityNewYorkTimes2Binding.inflate(getLayoutInflater());
         ActivityNewYorkTimesBinding binding0 = ActivityNewYorkTimesBinding.inflate(getLayoutInflater());
         NytRecycleBinding binding1 = NytRecycleBinding.inflate(getLayoutInflater());
+        // get a database
+        ArticleSourceDatabase db = Room.databaseBuilder(getApplicationContext(), ArticleSourceDatabase.class, "myMessageDatabase").build();
+        mDAO = db.cmDAO();
+
         DetailsNytBinding detailBinding = DetailsNytBinding.inflate(getLayoutInflater());
         setSupportActionBar(binding.myToolbar);
-        setContentView(binding.getRoot());
+
 
         viewModel = new ViewModelProvider(this).get(ArticleViewModel.class);
 
@@ -93,35 +89,16 @@ public class NewYorkTimes2 extends AppCompatActivity {
             transaction.replace(R.id.fragmentLocation, articleFragment);
             transaction.addToBackStack("").commit();
         });
-        topic = viewModel.messages.getValue();
-        if (topic == null) {
-            viewModel.messages.postValue(topic = new ArrayList<>());
-        }
-        binding1.showTopic.setOnClickListener(clk ->{
-            setContentView(detailBinding.getRoot());
-            String details= binding0.editText.getText().toString();
-         Articles topics= new Articles(details,false);
-         topic.add(topics);
-            Executor thread2 = Executors.newSingleThreadExecutor();
-            thread2.execute(() ->{
-                //insert into database
-                long id=   aDAO.insertMessage(topics);
-                topics.id=id;
-                detailBinding.detailTopic.setText(details);
-                detailBinding.topicID.setText((int) id);
-            });
-            myAdapter.notifyItemInserted(articles.size()-1);
 
-        });
-
-
-
-        articles = viewModel.articles.getValue();
         if (articles == null) {
             viewModel.articles.postValue(articles = new ArrayList<>());
-        }
+        }else{articles = viewModel.articles.getValue();}
+
+        setContentView(binding.getRoot());
+
         queue = Volley.newRequestQueue(this);
-        String topic = binding0.editText.getText().toString();
+    //    String topic = binding0.editText.getText().toString();
+        String topic = getIntent().getStringExtra("Topic");
         String API_KEY = "CM3Ch8PhugEL5BmEa9S2mzMFsJcAIFXc";
         try {
             url = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=" + URLEncoder.encode(topic, "UTF-8") + "&api-key=" + API_KEY;
@@ -135,18 +112,15 @@ public class NewYorkTimes2 extends AppCompatActivity {
                 null,
                 (JSONObject response) -> {
                     try {
-
                         JSONObject mainObject = response.getJSONObject("response");
                         JSONArray docsArray = mainObject.getJSONArray("docs");
                         for (int i = 0; i < docsArray.length(); i++) {
-                            JSONObject p = docsArray.getJSONObject(i);
-
-                            JSONObject position0 = docsArray.getJSONObject(0);
-                            String abstracts = position0.getString("abstract");
-                            String webUrl = position0.getString("web_url");
-                            String byline = p.getJSONObject("byline").getString("original");
-                            String headline2 = p.getJSONObject("headline").getString("main");
-
+                            JSONObject position = docsArray.getJSONObject(i);
+                            String abstracts = position.getString("abstract");
+                            String webUrl = position.getString("web_url");
+                            String byline = position.getJSONObject("byline").getString("original");
+                            String headline2 = position.getJSONObject("headline").getString("main");
+                            String leadParagraph = position.getString("lead_paragraph");
 
                             runOnUiThread(new Runnable() {
                                 @Override
@@ -155,12 +129,12 @@ public class NewYorkTimes2 extends AppCompatActivity {
                                     binding1.byline.setText(byline);
                                     binding1.abstracts.setText(abstracts);
                                     binding1.headline.setText(headline2);
-
+                                    detailBinding.detailTopic.setText(leadParagraph);
                                 }
 
 
                             });
-                            ArticleSource newArticle = new ArticleSource(headline2, byline, abstracts, webUrl);
+                            ArticleSource newArticle = new ArticleSource(headline2, byline, abstracts, webUrl,leadParagraph);
                             articles.add(newArticle);
                         }
 
@@ -274,10 +248,9 @@ public class NewYorkTimes2 extends AppCompatActivity {
 
         public MyRowHolder2(@NonNull View itemView) {
             super(itemView);
-
-            itemView.setOnClickListener( click -> {
+            itemView.setOnClickListener(clk ->{
                 int position = getAbsoluteAdapterPosition();
-                Articles selected = topic.get(position);
+                ArticleSource selected = articles.get(position);
                 viewModel.SelectedTopic.postValue(selected);
             });
             headlineText = itemView.findViewById(R.id.headline);

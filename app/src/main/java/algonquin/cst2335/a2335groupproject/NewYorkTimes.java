@@ -89,7 +89,7 @@ private ActivityNewYorkTimesBinding binding;
 
 
         SharedPreferences prefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
-        String date = prefs.getString("Date", "");
+
 
 
         binding.Searchbutton.setOnClickListener(clk ->{
@@ -103,11 +103,12 @@ private ActivityNewYorkTimesBinding binding;
                 toast.show();
             }else {
                 SharedPreferences.Editor editor = prefs.edit();
-                editor.putString("Date", userInput);
+                editor.putString("SearchedTopic", userInput);
                 editor.apply();
                 articles.add(new Articles(userInput,false));
                 myAdapter.notifyItemInserted(articles.size()-1);
                 Intent secondPage = new Intent(NewYorkTimes.this, NewYorkTimes2.class);
+                secondPage.putExtra("Topic",userInput);
                 startActivity(secondPage);}});
     }
     @Override

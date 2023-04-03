@@ -21,14 +21,16 @@ public class ArticleSource extends ArrayList<ArticleSource> {
     String abstracts;
     @ColumnInfo(name="Link")
     String webLink;
+    @ColumnInfo(name="lead_paragraph")
+    String leadParagraph;
 
-
-    public ArticleSource(String headline, String byline, String abstracts, String webLink)
+    public ArticleSource(String headline, String byline, String abstracts, String webLink,String leadParagraph)
     {
         this.headline=headline;
         this.byline=byline;
         this.abstracts=abstracts;
         this.webLink=webLink;
+        this.leadParagraph=leadParagraph;
 
 
     }
@@ -45,4 +47,7 @@ public class ArticleSource extends ArrayList<ArticleSource> {
     }
     public String getWebLink(){
         return webLink;
+    }
+    public String getleadParagraph(){
+        return leadParagraph;
     }}

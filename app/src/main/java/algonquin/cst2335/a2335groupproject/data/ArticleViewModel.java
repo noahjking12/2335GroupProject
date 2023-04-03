@@ -13,5 +13,5 @@ public class ArticleViewModel extends ViewModel {
 
     public MutableLiveData<ArrayList<Articles>> messages = new MutableLiveData<>();
     public MutableLiveData<ArrayList<ArticleSource>> articles = new MutableLiveData< >();
-public MutableLiveData<Articles> SelectedTopic=new MutableLiveData<>();
+public MutableLiveData<ArticleSource> SelectedTopic=new MutableLiveData<>();
 }
