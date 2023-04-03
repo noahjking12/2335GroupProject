@@ -3,6 +3,8 @@ package algonquin.cst2335.a2335groupproject;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,9 +30,11 @@ import java.util.concurrent.Executors;
 import algonquin.cst2335.a2335groupproject.data.ArticleDatabase;
 import algonquin.cst2335.a2335groupproject.data.ArticleViewModel;
 import algonquin.cst2335.a2335groupproject.databinding.ActivityNewYorkTimesBinding;
-import algonquin.cst2335.a2335groupproject.databinding.StoredHistoryBinding;
+import algonquin.cst2335.a2335groupproject.databinding.NytStoredHistoryBinding;
 import algonquin.cst2335.a2335groupproject.nyt.ArticleSource;
 import algonquin.cst2335.a2335groupproject.nyt.Articles;
+import algonquin.cst2335.a2335groupproject.nyt.NYTDetailsFragment;
+import algonquin.cst2335.a2335groupproject.ui.WeatherActivity;
 
 public class NewYorkTimes extends AppCompatActivity {
 
@@ -52,6 +56,8 @@ private ActivityNewYorkTimesBinding binding;
         viewModel = new ViewModelProvider(this).get(ArticleViewModel.class);
         articles= viewModel.messages.getValue();
 
+
+
         if(articles == null){
             viewModel.messages.postValue(articles = new ArrayList<>());
         }
@@ -61,7 +67,7 @@ private ActivityNewYorkTimesBinding binding;
             @Override
             public NewYorkTimes.MyRowHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-                StoredHistoryBinding roomBinding = StoredHistoryBinding.inflate(getLayoutInflater(),parent,false);
+                NytStoredHistoryBinding roomBinding = NytStoredHistoryBinding.inflate(getLayoutInflater(),parent,false);
                 View root=roomBinding.getRoot();
                 return new NewYorkTimes.MyRowHolder(root);
 
@@ -101,10 +107,7 @@ private ActivityNewYorkTimesBinding binding;
                 editor.apply();
                 articles.add(new Articles(userInput,false));
                 myAdapter.notifyItemInserted(articles.size()-1);
-                //  binding.editText.setText("");1
                 Intent secondPage = new Intent(NewYorkTimes.this, NewYorkTimes2.class);
-             //   String topic=binding.editText.getText().toString();
-            //    secondPage.putExtra("Topic",topic);
                 startActivity(secondPage);}});
     }
     @Override
@@ -127,6 +130,39 @@ private ActivityNewYorkTimesBinding binding;
                         .create().show();
                 break;
 
+            case R.id.NasaItem:
+                // Go to Nasa activity
+
+                Intent nasaPage = new Intent(NewYorkTimes.this, NasaPhotos.class);
+                startActivity(nasaPage);
+
+                break;
+
+            case R.id.KittenItem:
+
+
+                Intent kittenPage = new Intent(NewYorkTimes.this, SecondActivity.class);
+
+                startActivity( kittenPage );
+
+                break;
+            case R.id.NYTItem:
+                // Go to NewYorkTimes activity
+
+                Intent nytPage = new Intent(NewYorkTimes.this, NewYorkTimes.class);
+                startActivity(nytPage);
+
+
+                break;
+
+            case R.id.WeatherItem:
+
+                Intent weatherPage = new Intent(NewYorkTimes.this, WeatherActivity.class);
+
+                startActivity(weatherPage);
+
+                break;
+
         }
 
         return true;
@@ -140,11 +176,10 @@ private ActivityNewYorkTimesBinding binding;
         public MyRowHolder(@NonNull View itemView) {
             super(itemView);
 
-
             itemView.setOnClickListener(clk->{
                 int position = getAbsoluteAdapterPosition();
                 Articles clickMessage = articles.get(position);
-String question =getResources().getString(R.string.question);
+                String question =getResources().getString(R.string.question);
                 String confirm =getResources().getString(R.string.confirm);
                 String deleted =getResources().getString(R.string.deleted);
                 String undo =getResources().getString(R.string.undo);
@@ -181,11 +216,10 @@ String question =getResources().getString(R.string.question);
                         })
                         .create().show();
 
-
-
-
-
             });
+
+
+
             messageText = itemView.findViewById(R.id.topics);
 
 
