@@ -13,60 +13,54 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         />
-    <Button
+    <ImageView
         android:id="@+id/NasaMarsRoverButton"
-        style="@style/Widget.Material3.Button.Icon"
         android:layout_width="125dp"
         android:layout_height="125dp"
         android:layout_marginStart="60dp"
         android:layout_marginTop="120dp"
-        android:text="Nasa Mars Rover photos"
-        android:textSize="13dp"
         android:textStyle="bold"
+        app:srcCompat="@drawable/nasas"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <ImageView
         android:id="@+id/KittenPlaceholderButton"
-        style="@style/Widget.Material3.Button.Icon"
+        app:srcCompat="@drawable/cats"
         android:layout_width="125dp"
         android:layout_height="125dp"
         android:layout_marginTop="120dp"
-        android:text="Kitten Placeholder images"
-        android:textSize="13dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.447"
         app:layout_constraintStart_toEndOf="@+id/NasaMarsRoverButton"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <ImageView
         android:id="@+id/NewYorkTimesButton"
-        style="@style/Widget.Material3.Button.Icon"
+        app:srcCompat="@drawable/newyork"
         android:layout_width="125dp"
         android:layout_height="125dp"
         android:layout_marginStart="60dp"
         android:layout_marginTop="50dp"
         android:layout_marginBottom="200dp"
-        android:text="New York Times"
-        android:textSize="13dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/NasaMarsRoverButton" />
 
-    <Button
+    <ImageView
         android:id="@+id/WeatherStackButton"
-        style="@style/Widget.Material3.Button.Icon"
         android:layout_width="125dp"
         android:layout_height="125dp"
         android:layout_marginTop="50dp"
         android:layout_marginBottom="200dp"
-        android:text="WeatherStack"
-        android:textSize="13dp"
+        app:srcCompat="@drawable/weathers"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.447"
         app:layout_constraintStart_toEndOf="@+id/NewYorkTimesButton"
-        app:layout_constraintTop_toBottomOf="@+id/KittenPlaceholderButton" />
+        app:layout_constraintTop_toBottomOf="@+id/KittenPlaceholderButton"
+        app:layout_constraintVertical_bias="0.458" />
 </androidx.constraintlayout.widget.ConstraintLayout>
