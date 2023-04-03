@@ -35,7 +35,10 @@ import algonquin.cst2335.a2335groupproject.nyt.ArticleSource;
 import algonquin.cst2335.a2335groupproject.nyt.Articles;
 import algonquin.cst2335.a2335groupproject.nyt.NYTDetailsFragment;
 import algonquin.cst2335.a2335groupproject.ui.WeatherActivity;
-
+/**
+ * This class provides activities for the first page.
+ * @author Jiale Zhang
+ */
 public class NewYorkTimes extends AppCompatActivity {
 
     ArrayList<Articles> articles;
@@ -44,25 +47,50 @@ public class NewYorkTimes extends AppCompatActivity {
     private ArticleViewModel viewModel;
 
 private ActivityNewYorkTimesBinding binding;
+
+    /**
+     *
+     * @param savedInstanceState
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-         binding = ActivityNewYorkTimesBinding.inflate(getLayoutInflater());
-        setSupportActionBar(binding.myToolbar);
+        /**
+         *  connect the layout for the first page
+         */
+        binding = ActivityNewYorkTimesBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        /**
+         * start the action for toolbar
+         */
+        setSupportActionBar(binding.myToolbar);
 
+/**
+ * connect the Articledatabse
+ */
         ArticleDatabase db = Room.databaseBuilder(getApplicationContext(), ArticleDatabase.class, "database-name").build();
         mDAO = db.cmDAO();
-
+/**
+ * get viewmodel and store data into Article arraylist
+ */
         viewModel = new ViewModelProvider(this).get(ArticleViewModel.class);
         articles= viewModel.messages.getValue();
-
-
 
         if(articles == null){
             viewModel.messages.postValue(articles = new ArrayList<>());
         }
+
+        /**
+         * set up recycleView for topic history
+         */
         binding.recycleView.setLayoutManager(new LinearLayoutManager(this));
         binding.recycleView.setAdapter(myAdapter = new RecyclerView.Adapter<NewYorkTimes.MyRowHolder>() {
+            /**
+             *
+             * @param parent   The ViewGroup into which the new View will be added after it is bound to
+             *                 an adapter position.
+             * @param viewType The view type of the new View.
+             * @return
+             */
             @NonNull
             @Override
             public NewYorkTimes.MyRowHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -73,6 +101,12 @@ private ActivityNewYorkTimesBinding binding;
 
             }
 
+            /**
+             *
+             * @param holder   The ViewHolder which should be updated to represent the contents of the
+             *                 item at the given position in the data set.
+             * @param position The position of the item within the adapter's data set.
+             */
             @Override //what are the textViews set to for row position
             public void onBindViewHolder(@NonNull MyRowHolder holder, int position) {
                 Articles message=articles.get(position);
@@ -80,18 +114,20 @@ private ActivityNewYorkTimesBinding binding;
 
             }
 
+            /**
+             *
+             * @return articles.size()
+             */
             @Override
             public int getItemCount() {
                 return articles.size();
             }
 
         });
-
-
+        /**
+         * store the searched history and activate the second activity
+         */
         SharedPreferences prefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
-
-
-
         binding.Searchbutton.setOnClickListener(clk ->{
             String choose = getResources().getString(R.string.choose_topic);
             String userInput=binding.editText.getText().toString();
@@ -111,12 +147,24 @@ private ActivityNewYorkTimesBinding binding;
                 secondPage.putExtra("Topic",userInput);
                 startActivity(secondPage);}});
     }
+
+    /**
+     *
+     * @param menu menu
+     * @return true
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_bar, menu);
         return true;
     }
+
+    /**
+     *
+     * @param item
+     * @return true
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         String instruction = getResources().getString(R.string.instruction);
@@ -169,11 +217,19 @@ private ActivityNewYorkTimesBinding binding;
         return true;
     }
 
-
+    /**
+     * this class defines the data stored in each row
+     */
     class MyRowHolder extends RecyclerView.ViewHolder{
+        /**
+         * declare texview
+         */
         TextView messageText;
 
-
+        /**
+         *
+         * @param itemView item view
+         */
         public MyRowHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -186,6 +242,9 @@ private ActivityNewYorkTimesBinding binding;
                 String undo =getResources().getString(R.string.undo);
                 String cancel =getResources().getString(R.string.cancel);
                 String yes =getResources().getString(R.string.yes);
+                /**
+                 * this alert dialog asks the user if they want to delete the searched history
+                 */
                 AlertDialog.Builder builder = new AlertDialog.Builder(NewYorkTimes.this);
                 builder.setMessage(confirm + messageText.getText())
                         .setTitle(question)

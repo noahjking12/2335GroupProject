@@ -49,7 +49,10 @@ import algonquin.cst2335.a2335groupproject.nyt.ArticleSourceDatabase;
 import algonquin.cst2335.a2335groupproject.nyt.Articles;
 import algonquin.cst2335.a2335groupproject.nyt.NYTDetailsFragment;
 import algonquin.cst2335.a2335groupproject.ui.WeatherActivity;
-
+/**
+ * This class provides activities for the second page.
+ * @author Jiale Zhang
+ */
 public class NewYorkTimes2 extends AppCompatActivity {
 
     ArrayList<ArticleSource> articles;
@@ -65,23 +68,30 @@ public class NewYorkTimes2 extends AppCompatActivity {
 
     private RecyclerView.Adapter myAdapter;
 
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityNewYorkTimes2Binding binding = ActivityNewYorkTimes2Binding.inflate(getLayoutInflater());
-        ActivityNewYorkTimesBinding binding0 = ActivityNewYorkTimesBinding.inflate(getLayoutInflater());
         NytRecycleBinding binding1 = NytRecycleBinding.inflate(getLayoutInflater());
-        // get a database
+        /**
+         * get a database ArticleSource
+         */
         ArticleSourceDatabase db = Room.databaseBuilder(getApplicationContext(), ArticleSourceDatabase.class, "myMessageDatabase").build();
         mDAO = db.cmDAO();
-
+/**
+ * get layout to present lead paragraph
+ */
         DetailsNytBinding detailBinding = DetailsNytBinding.inflate(getLayoutInflater());
         setSupportActionBar(binding.myToolbar);
 
-
+/**
+ * set up fragment in this page
+ */
         viewModel = new ViewModelProvider(this).get(ArticleViewModel.class);
-
-
         viewModel.SelectedTopic.observe(this, ( newtopic) -> {
             FragmentManager fM = getSupportFragmentManager();
             FragmentTransaction transaction = fM.beginTransaction();
@@ -95,7 +105,9 @@ public class NewYorkTimes2 extends AppCompatActivity {
         }else{articles = viewModel.articles.getValue();}
 
         setContentView(binding.getRoot());
-
+/**
+ * get data from API by using Volley
+ */
         queue = Volley.newRequestQueue(this);
     //    String topic = binding0.editText.getText().toString();
         String topic = getIntent().getStringExtra("Topic");
@@ -105,7 +117,9 @@ public class NewYorkTimes2 extends AppCompatActivity {
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
-
+/**
+ * create JSON request
+ */
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.GET,
                 url,
@@ -123,6 +137,9 @@ public class NewYorkTimes2 extends AppCompatActivity {
                             String leadParagraph = position.getString("lead_paragraph");
 
                             runOnUiThread(new Runnable() {
+                                /**
+                                 * set view for the second page
+                                 */
                                 @Override
                                 public void run() {
                                     binding1.webUrl.setText(webUrl);
@@ -151,10 +168,19 @@ public class NewYorkTimes2 extends AppCompatActivity {
         queue.add(request);
 
         //  });
-
+/**
+ * create recycle view for the second page
+ */
         binding.recycleView.setLayoutManager(new LinearLayoutManager(this));
 
         binding.recycleView.setAdapter(myAdapter = new RecyclerView.Adapter<NewYorkTimes2.MyRowHolder2>() {
+            /**
+             *
+             * @param parent   The ViewGroup into which the new View will be added after it is bound to
+             *                 an adapter position.
+             * @param viewType The view type of the new View.
+             * @return NewYorkTimes2.MyRowHolder2(root)
+             */
             @NonNull
             @Override
             public NewYorkTimes2.MyRowHolder2 onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -164,6 +190,12 @@ public class NewYorkTimes2 extends AppCompatActivity {
 
             }
 
+            /**
+             *
+             * @param holder   The ViewHolder which should be updated to represent the contents of the
+             *                 item at the given position in the data set.
+             * @param position The position of the item within the adapter's data set.
+             */
             @Override
             public void onBindViewHolder(@NonNull MyRowHolder2 holder, int position) {
                 ArticleSource message = articles.get(position);
@@ -173,6 +205,10 @@ public class NewYorkTimes2 extends AppCompatActivity {
                 holder.headlineText.setText(message.getHeadline());
             }
 
+            /**
+             *
+             * @return articles.size()
+             */
 
             @Override
             public int getItemCount() {
@@ -184,6 +220,11 @@ public class NewYorkTimes2 extends AppCompatActivity {
 
     }
 
+    /**
+     *
+     * @param menu
+     * @return true
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -191,6 +232,11 @@ public class NewYorkTimes2 extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * set up toolbar function
+     * @param item
+     * @return true
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         String instruction = getResources().getString(R.string.instruction);
@@ -242,10 +288,16 @@ public class NewYorkTimes2 extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * this class defines the data stored in each row
+     */
     class MyRowHolder2 extends RecyclerView.ViewHolder {
         TextView headlineText, urlText, bylineText, abstractText;
 
-
+        /**
+         *
+         * @param itemView
+         */
         public MyRowHolder2(@NonNull View itemView) {
             super(itemView);
             itemView.setOnClickListener(clk ->{
