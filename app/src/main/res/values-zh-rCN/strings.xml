@@ -8,12 +8,22 @@
     <string name="kitten_width_hint">这里输入宽</string>
     <string name="kittin_height_hint">这里输入高</string>
     <string name="kitten_instruction">使用指南</string>
-    <string name="kitten_detail">1. 输入图片的宽和高，只接受整数小数不接受\n2. 输入图片的宽和高后，点击输入然后一张符合你刚刚输入的喵咪图片就会显示在屏幕上\n3. 点击保存按钮会保存用户最后输入的宽和高\n4. 点击猫咪图片会有一个信息显示被点击的猫咪图片的宽和高哦</string>
+    <string name="kitten_detail">1. 输入图片的宽和高，只接受整数小数不接受\n2. 输入图片的宽和高后，点击输入然后一张符合你刚刚输入的喵咪图片就会显示在屏幕上\n3. 点击保存按钮会保存用户最后输入的宽和高\n4. 点击猫咪图片会跳转到一个新页面显示该图片的高和宽，以及时间日期\n5. 点击添加到我的最爱来保存猫咪图片到我的最爱里\n6. 点击右上角的工具栏去查看我的最爱列表</string>
     <string name="kitten_confirmation">确认信息</string>
     <string name="kitten_AlertDialog_Message">你想要保存你上次输入的信息吗？</string>
     <string name="kitten_Snackbar">保存成功！</string>
     <string name="kitten_No">不要</string>
     <string name="kitten_ok">好的</string>
     <string name="kitten_toastMessage_width">这张图片的宽是</string>
-    <string name="kitten_toastMessage_height">，和高是</string>
+    <string name="kitten_toastMessage_height">这张图片的高是</string>
+    <string name="kitten_add_btn">添加到我的最爱</string>
+    <string name="kitten_remove_btn">删除</string>
+    <string name="kitten_database_id">数据库id</string>
+    <string name="kitten_imageSavedInfo">图片已添加到我的最爱</string>
+    <string name="kitten_favourite">我的最爱图片</string>
+    <string name="kitten_imgaeRemove">图片已从我的最爱里移除</string>
+    <string name="kitten_fragmentTriger">点击图片查看细节</string>
+    <string name="kitten_favourite_remove">你想要将这张图片从我的最爱里移除码？</string>
+    <string name="kitten_yes">是的</string>
+    <string name="kitten_favourite_toolbar">查看我的最爱</string>
 </resources>

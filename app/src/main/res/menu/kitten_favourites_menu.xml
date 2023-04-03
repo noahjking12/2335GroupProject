@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/view_favourites"
-        android:title="View Favourites"
+        android:title="@string/kitten_favourite_toolbar"
         app:showAsAction="never" />
 
 </menu>

@@ -10,7 +10,7 @@
 
 
     <string name="kitten_instruction">Instruction</string>
-    <string name="kitten_detail">"1. Enter a width and height in the text box, whole number only decimal numbers are not accepted.\n2. After enter the width and height, press enter then a kitten picture that match the width and height that the user entered will show up on the screen.\n3. Press the save button will save the last width and height that the user entered.\n4. Click on one of the Kitten picture will show you a message of the selected picture's width and height. "</string>
+    <string name="kitten_detail">1. Enter a width and height in the text box, whole number only decimal numbers are not accepted.\n2. After entering the width and height, press enter then a kitten picture that match the width and height that the user entered will show up on the screen.\n3. Press the save button will save the last width and height that the user entered.\n4. Click on one of the Kitten picture will show you a detail page with the kitten picture and the width, height and date of the picture loaded.\n5. Click on the add to favourite button to save a kitten picture to the favourite list.\n6. Click on the toolbar on the top right corner to view the favourite list.</string>
     <string name="kitten_enter_btn">Enter</string>
     <string name="kittin_save_btn">Save</string>
     <string name="kitten_width">Width: </string>
@@ -22,16 +22,18 @@
     <string name="kitten_Snackbar">You have save the text successfully!</string>
     <string name="kitten_No">No</string>
     <string name="kitten_ok">Okay</string>
+    <string name="kitten_yes">Yes</string>
     <string name="kitten_toastMessage_width">The width of this image is </string>
-    <string name="kitten_toastMessage_height">, and the height is </string>
+    <string name="kitten_toastMessage_height">The height of this image is </string>
     <string name="kitten_add_btn">add to favourite</string>
     <string name="kitten_remove_btn">remove</string>
     <string name="kitten_database_id">database id goes here</string>
-    <string name="kitten_fragmentTriger">Clack the image to see detail</string>
+    <string name="kitten_fragmentTriger">Click the image to see detail</string>
     <string name="kitten_imageSavedInfo">Image has been added to favorites</string>
     <string name="kitten_favourite">My Favourite Images</string>
+    <string name="kitten_favourite_remove">Do you want to remove this picture from your favourite list?</string>
     <string name="kitten_imgaeRemove">Image has been remove from the favorites list</string>
-    <string name="kitten_fragmentTitle">Image details</string>
+    <string name="kitten_favourite_toolbar">View Favourites</string>
 
     <string name="topicenter">Enter the topic your are interested in</string>
     <string name="search_articles">Search Articles</string>
