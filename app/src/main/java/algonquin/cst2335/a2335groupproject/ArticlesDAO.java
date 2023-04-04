@@ -4,9 +4,9 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import algonquin.cst2335.a2335groupproject.nyt.ArticleSource;
 import algonquin.cst2335.a2335groupproject.nyt.Articles;
 /**
  * This interface allows users to manipulate the topics searched.

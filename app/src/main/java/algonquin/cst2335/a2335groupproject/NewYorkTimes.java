@@ -42,6 +42,7 @@ import algonquin.cst2335.a2335groupproject.ui.WeatherActivity;
 public class NewYorkTimes extends AppCompatActivity {
 
     ArrayList<Articles> articles;
+
     ArticlesDAO mDAO;
     private RecyclerView.Adapter myAdapter;
     private ArticleViewModel viewModel;
@@ -138,10 +139,20 @@ private ActivityNewYorkTimesBinding binding;
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
             }else {
+
+
+
+
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putString("SearchedTopic", userInput);
                 editor.apply();
                 articles.add(new Articles(userInput,false));
+                // Save the Forecast in the database
+                Articles topic = new Articles(userInput,false);
+                        Executor thread = Executors.newSingleThreadExecutor();
+                        thread.execute(() -> {
+                            long id = mDAO.insertMessage(topic);
+                            topic.id = id; });
                 myAdapter.notifyItemInserted(articles.size()-1);
                 Intent secondPage = new Intent(NewYorkTimes.this, NewYorkTimes2.class);
                 secondPage.putExtra("Topic",userInput);
@@ -248,33 +259,26 @@ private ActivityNewYorkTimesBinding binding;
                 AlertDialog.Builder builder = new AlertDialog.Builder(NewYorkTimes.this);
                 builder.setMessage(confirm + messageText.getText())
                         .setTitle(question)
+                        .setNegativeButton(cancel, (dialog, cl) -> {
+                        })
                         .setPositiveButton(yes, (dialog, which) -> {
 
                             Executor thread = Executors.newSingleThreadExecutor();
                             thread.execute(() -> {
-                                mDAO.deleteMessage(clickMessage);
+                                mDAO.deleteMessage(clickMessage);});
                                 articles.remove(position);
-
-                                runOnUiThread(()->{
                                     myAdapter.notifyItemRemoved(position); //update the recycleview
                                     Snackbar.make(messageText, deleted+position+1,Snackbar.LENGTH_LONG)
                                             .setAction(undo, click ->{
                                                 Executor thread2 = Executors.newSingleThreadExecutor();
                                                 thread2.execute(() -> {
-                                                    mDAO.insertMessage(clickMessage);
+                                                    mDAO.insertMessage(clickMessage);});
                                                     articles.add(position,clickMessage);
                                                     runOnUiThread(()->{myAdapter.notifyItemInserted(position);});
                                                 });})
-                                            .show();
 
-                                });
-
-                            });
-                        })
-
-                        .setNegativeButton(cancel, (dialog, cl) -> {
-                        })
-                        .create().show();
+                        .create()
+                        .show();
 
             });
 
