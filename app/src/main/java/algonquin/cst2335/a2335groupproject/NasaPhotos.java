@@ -105,6 +105,9 @@ public class NasaPhotos extends AppCompatActivity {
 
 
 class MyRowHolder extends RecyclerView.ViewHolder{
+    /**
+     * declare the textview for topic
+     */
     TextView messageText;
 
 
