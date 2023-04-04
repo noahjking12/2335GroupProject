@@ -2,15 +2,19 @@ package algonquin.cst2335.a2335groupproject.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.room.Room;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -29,10 +33,19 @@ import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import algonquin.cst2335.a2335groupproject.Forecast;
+import algonquin.cst2335.a2335groupproject.ForecastDAO;
+import algonquin.cst2335.a2335groupproject.ForecastDatabase;
+import algonquin.cst2335.a2335groupproject.NasaPhotos;
+import algonquin.cst2335.a2335groupproject.NewYorkTimes;
 import algonquin.cst2335.a2335groupproject.R;
+import algonquin.cst2335.a2335groupproject.SecondActivity;
+import algonquin.cst2335.a2335groupproject.data.WeatherActivityViewModel;
 import algonquin.cst2335.a2335groupproject.databinding.ActivityWeatherBinding;
 import algonquin.cst2335.a2335groupproject.databinding.ActivityWeatherSearchResponseBinding;
 
@@ -44,6 +57,12 @@ public class WeatherSearchResponse extends AppCompatActivity {
 
     /** Variable binding for weather search results page */
     ActivityWeatherSearchResponseBinding binding;
+
+    /** ViewModel for saving WeatherActivity's data */
+    WeatherActivityViewModel weatherModel;
+
+    /** List of users saved forecasts */
+    ArrayList<Forecast> savedForecasts;
 
     /** Access key for WeatherStack API */
     private final String API_KEY = "96c90f930cc4a93a156d3f749133bcd8";
@@ -57,12 +76,34 @@ public class WeatherSearchResponse extends AppCompatActivity {
     /** The retrieved forecast */
     Forecast searchedForecast;
 
+    /** DAO for interacting with the Forecast database */
+    ForecastDAO forecastDAO;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Get a DAO for the Forecast database
+        ForecastDatabase db = Room.databaseBuilder(getApplicationContext(), ForecastDatabase.class, "weatherstack").build();
+        forecastDAO = db.forecastDAO();
+
         binding = ActivityWeatherSearchResponseBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // Initialize ViewModelProvider and savedForecasts ArrayList
+        weatherModel = new ViewModelProvider(this).get(WeatherActivityViewModel.class);
+        savedForecasts = weatherModel.savedForecasts.getValue();
+
+        // If savedForecasts has never been set, post to it an empty ArrayList
+        if (savedForecasts == null) {
+            weatherModel.savedForecasts.postValue( savedForecasts = new ArrayList<Forecast>());
+
+            // Load all saved Forecasts
+            Executor thread = Executors.newSingleThreadExecutor();
+            thread.execute(() -> {
+                savedForecasts.addAll(forecastDAO.getAllForecasts()); // Get all Forecasts from Forecast database
+            });
+        }
 
         queue = Volley.newRequestQueue(this); // Establish RequestQueue
 
@@ -88,10 +129,6 @@ public class WeatherSearchResponse extends AppCompatActivity {
                 null,
                 (response) -> {
                     try {
-                        // Get country of forecast
-                        JSONObject location = response.getJSONObject("location");
-                        String country = location.getString("country");
-
                         JSONObject currentForecast = response.getJSONObject("current"); // Current forecast data
 
                         // Get all require Forecast data
@@ -122,6 +159,7 @@ public class WeatherSearchResponse extends AppCompatActivity {
                                             // Store the image locally
                                             image.compress(Bitmap.CompressFormat.PNG, 100, WeatherSearchResponse.this.openFileOutput(icon, Activity.MODE_PRIVATE));
                                             binding.cityWeatherIcon.setImageBitmap(image); // Display on screen
+                                            binding.cityWeatherIcon.setVisibility(View.VISIBLE);
                                         } catch (FileNotFoundException e) {
                                             e.printStackTrace();
                                         }
@@ -145,14 +183,32 @@ public class WeatherSearchResponse extends AppCompatActivity {
                         // Display the data
                         runOnUiThread(() -> {
                             binding.cityName.setText(cityName);
+                            binding.cityName.setVisibility(View.VISIBLE);
+
                             binding.cityTemp.setText(Integer.toString(temperature));
+                            binding.cityTemp.setVisibility(View.VISIBLE);
+
                             binding.cityWeatherIcon.setImageBitmap(image);
+                            binding.cityWeatherIcon.setVisibility(View.VISIBLE);
+
                             binding.cityWeatherDesc.setText(description);
+                            binding.cityWeatherDesc.setVisibility(View.VISIBLE);
+
                             binding.cityFeelsLike.setText(resFeelsLike + Integer.toString(feelsLike));
+                            binding.cityFeelsLike.setVisibility(View.VISIBLE);
+
                             binding.cityHumidity.setText(resHumidity + Integer.toString(humidity) + "%");
+                            binding.cityHumidity.setVisibility(View.VISIBLE);
+
                             binding.cityUvIndex.setText(resUvIndex + Integer.toString(uvIndex));
+                            binding.cityUvIndex.setVisibility(View.VISIBLE);
+
                             binding.cityWindSpeed.setText(resWindSpeed + Integer.toString(windSpeed) + "km/h");
+                            binding.cityWindSpeed.setVisibility(View.VISIBLE);
+
                             binding.cityVisibility.setText(resVisibility + Integer.toString(visibility));
+                            binding.cityVisibility.setVisibility(View.VISIBLE);
+
                         });
 
                         // Get current date
@@ -160,7 +216,7 @@ public class WeatherSearchResponse extends AppCompatActivity {
                         String date = sdf.format(new Date());
 
                         // Construct the Forecast object using retrieved data
-                        searchedForecast = new Forecast(country, cityName, date, icon, description, temperature, feelsLike, humidity, uvIndex, windSpeed, visibility);
+                        searchedForecast = new Forecast(cityName, date, icon, description, temperature, feelsLike, humidity, uvIndex, windSpeed, visibility);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -176,14 +232,21 @@ public class WeatherSearchResponse extends AppCompatActivity {
 
         // Activate save forecast button
         binding.saveForecastBtn.setOnClickListener(clk -> {
-            // Get string from res/string
-            String forecastSaved = getResources().getString(R.string.forecast_saved);
 
-            // Show a Toast stating that the forecast was successfully saved
-            Context context = getApplicationContext();
-            CharSequence text = forecastSaved + cityName;
-            int duration = Toast.LENGTH_SHORT;
-            Toast.makeText(context, text, duration).show();
+            savedForecasts.add(searchedForecast); // Add the Forecast to savedForecasts
+
+            // Save the Forecast in the database
+            Executor thread = Executors.newSingleThreadExecutor();
+            thread.execute(() -> {
+                long id = forecastDAO.insertForecast(searchedForecast);
+                searchedForecast.id = id; // Database tells us what the id is
+            });
+
+            // Send user back to WeatherActivity
+            Intent weatherPage = new Intent(WeatherSearchResponse.this, WeatherActivity.class);
+            weatherPage.putExtra("SavedAForecast", true); // Tells WeatherActivity that a Forecast was saved
+            startActivity(weatherPage);
+
         });
 
         setSupportActionBar(binding.weatherResponseToolbar);
@@ -215,6 +278,27 @@ public class WeatherSearchResponse extends AppCompatActivity {
                         .setTitle(weatherHelpTitle)
                         .create()
                         .show();
+
+                break;
+
+            case R.id.kitten_bar_btn:
+                // Send user to Kitten Images app
+                Intent kittenPage = new Intent(WeatherSearchResponse.this, SecondActivity.class);
+                startActivity( kittenPage );
+
+                break;
+
+            case R.id.nyt_bar_btn:
+                // Send user to New York Times app
+                Intent nytPage = new Intent(WeatherSearchResponse.this, NewYorkTimes.class);
+                startActivity( nytPage );
+
+                break;
+
+            case R.id.nasa_bar_btn:
+                // Send user to Nasa photos app
+                Intent nasaPage = new Intent(WeatherSearchResponse.this, NasaPhotos.class);
+                startActivity( nasaPage );
 
                 break;
         }

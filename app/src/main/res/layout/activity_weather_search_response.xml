@@ -24,7 +24,8 @@
         android:text="17"
         android:textSize="96sp"
         app:layout_constraintStart_toStartOf="@+id/cityName"
-        app:layout_constraintTop_toBottomOf="@+id/cityName" />
+        app:layout_constraintTop_toBottomOf="@+id/cityName"
+        android:visibility="invisible" />
 
     <TextView
         android:id="@+id/cityWeatherDesc"
@@ -33,7 +34,8 @@
         android:layout_marginEnd="32dp"
         android:text="sunny"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/cityWeatherIcon" />
+        app:layout_constraintTop_toTopOf="@+id/cityWeatherIcon"
+        android:visibility="invisible" />
 
     <ImageView
         android:id="@+id/cityWeatherIcon"
@@ -43,7 +45,7 @@
         android:layout_marginTop="32dp"
         app:layout_constraintStart_toEndOf="@+id/cityTemp"
         app:layout_constraintTop_toTopOf="@+id/cityTemp"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:visibility="invisible" />
 
     <TextView
         android:id="@+id/cityName"
@@ -53,7 +55,8 @@
         android:layout_marginTop="32dp"
         android:text="prague"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/weatherResponseToolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/weatherResponseToolbar"
+        android:visibility="invisible" />
 
     <TextView
         android:id="@+id/cityFeelsLike"
@@ -62,7 +65,8 @@
         android:text="Feels like 17"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/cityTemp"
-        app:layout_constraintEnd_toEndOf="@+id/cityWeatherDesc" />
+        app:layout_constraintEnd_toEndOf="@+id/cityWeatherDesc"
+        android:visibility="invisible" />
 
     <TextView
         android:id="@+id/cityHumidity"
@@ -71,7 +75,8 @@
         android:layout_marginTop="64dp"
         android:text=" humidity 63%"
         app:layout_constraintStart_toStartOf="@+id/cityTemp"
-        app:layout_constraintTop_toBottomOf="@+id/cityTemp" />
+        app:layout_constraintTop_toBottomOf="@+id/cityTemp"
+        android:visibility="invisible" />
 
     <TextView
         android:id="@+id/cityUvIndex"
@@ -80,7 +85,8 @@
         android:layout_marginTop="32dp"
         android:text=" UV index 2"
         app:layout_constraintStart_toStartOf="@+id/cityHumidity"
-        app:layout_constraintTop_toBottomOf="@+id/cityHumidity" />
+        app:layout_constraintTop_toBottomOf="@+id/cityHumidity"
+        android:visibility="invisible" />
 
     <TextView
         android:id="@+id/cityWindSpeed"
@@ -88,7 +94,8 @@
         android:layout_height="wrap_content"
         android:text="Wind speed 5/ms"
         app:layout_constraintEnd_toEndOf="@+id/cityFeelsLike"
-        app:layout_constraintTop_toTopOf="@+id/cityHumidity" />
+        app:layout_constraintTop_toTopOf="@+id/cityHumidity"
+        android:visibility="invisible" />
 
     <TextView
         android:id="@+id/cityVisibility"
@@ -97,7 +104,8 @@
         android:layout_marginTop="32dp"
         android:text="Visibility"
         app:layout_constraintEnd_toEndOf="@+id/cityWindSpeed"
-        app:layout_constraintTop_toBottomOf="@+id/cityWindSpeed" />
+        app:layout_constraintTop_toBottomOf="@+id/cityWindSpeed"
+        android:visibility="invisible" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/weatherResponseToolbar"

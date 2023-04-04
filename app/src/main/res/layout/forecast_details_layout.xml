@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
+
+        <TextView
+            android:id="@+id/fragmentTemp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="17"
+            android:textSize="96sp"
+            app:layout_constraintStart_toStartOf="@+id/fragmentCityName"
+            app:layout_constraintTop_toBottomOf="@+id/fragmentCityName"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/fragmentWeatherDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:text="sunny"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/fragmentWeatherIcon"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/fragmentWeatherIcon"
+            android:layout_width="44dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            app:layout_constraintStart_toEndOf="@+id/fragmentTemp"
+            app:layout_constraintTop_toTopOf="@+id/fragmentTemp"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/fragmentCityName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="64dp"
+            android:text="prague"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/fragmentFeelsLike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Feels like 17"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/fragmentTemp"
+            app:layout_constraintEnd_toEndOf="@+id/fragmentWeatherDesc"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/fragmentHumidity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="64dp"
+            android:text=" humidity 63%"
+            app:layout_constraintStart_toStartOf="@+id/fragmentTemp"
+            app:layout_constraintTop_toBottomOf="@+id/fragmentTemp"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/fragmentUvIndex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text=" UV index 2"
+            app:layout_constraintStart_toStartOf="@+id/fragmentHumidity"
+            app:layout_constraintTop_toBottomOf="@+id/fragmentHumidity"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/fragmentWindSpeed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Wind speed 5/ms"
+            app:layout_constraintEnd_toEndOf="@+id/fragmentFeelsLike"
+            app:layout_constraintTop_toTopOf="@+id/fragmentHumidity"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/fragmentVisibility"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Visibility"
+            app:layout_constraintEnd_toEndOf="@+id/fragmentWindSpeed"
+            app:layout_constraintTop_toBottomOf="@+id/fragmentWindSpeed"
+            android:visibility="invisible" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

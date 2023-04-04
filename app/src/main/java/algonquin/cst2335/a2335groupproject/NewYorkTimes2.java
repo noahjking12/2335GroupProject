@@ -247,7 +247,7 @@ public class NewYorkTimes2 extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(NewYorkTimes2.this);
                 builder.setMessage(details)
                         .setTitle(instruction)
-                        .create().show();
+                        .create()/**.show()*/;
                 break;
             case R.id.NasaItem:
                 // Go to Nasa activity
