@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import algonquin.cst2335.a2335groupproject.databinding.ActivityMainBinding;
+import algonquin.cst2335.a2335groupproject.nasa.NasaActivity;
 import algonquin.cst2335.a2335groupproject.ui.WeatherActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -19,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
 
         binding.NasaMarsRoverButton.setOnClickListener(clk ->{
-            Intent nasaPage = new Intent(MainActivity.this, NasaPhotos.class);
+            Intent nasaPage = new Intent(MainActivity.this, NasaActivity.class);
             startActivity(nasaPage);
         });
         binding.KittenPlaceholderButton.setOnClickListener(clk ->
@@ -57,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.NasaItem:
                 // Go to Nasa activity
 
-                    Intent nasaPage = new Intent(MainActivity.this, NasaPhotos.class);
+                    Intent nasaPage = new Intent(MainActivity.this, NasaActivity.class);
                     startActivity(nasaPage);
 
                 break;

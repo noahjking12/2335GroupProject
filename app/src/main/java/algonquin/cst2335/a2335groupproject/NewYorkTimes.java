@@ -31,6 +31,7 @@ import algonquin.cst2335.a2335groupproject.data.ArticleDatabase;
 import algonquin.cst2335.a2335groupproject.data.ArticleViewModel;
 import algonquin.cst2335.a2335groupproject.databinding.ActivityNewYorkTimesBinding;
 import algonquin.cst2335.a2335groupproject.databinding.NytStoredHistoryBinding;
+import algonquin.cst2335.a2335groupproject.nasa.NasaActivity;
 import algonquin.cst2335.a2335groupproject.nyt.ArticleSource;
 import algonquin.cst2335.a2335groupproject.nyt.Articles;
 import algonquin.cst2335.a2335groupproject.nyt.NYTDetailsFragment;
@@ -111,6 +112,7 @@ private ActivityNewYorkTimesBinding binding;
             @Override //what are the textViews set to for row position
             public void onBindViewHolder(@NonNull MyRowHolder holder, int position) {
                 Articles message=articles.get(position);
+
                 holder.messageText.setText(message.getMessage());
 
             }
@@ -139,9 +141,6 @@ private ActivityNewYorkTimesBinding binding;
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
             }else {
-
-
-
 
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putString("SearchedTopic", userInput);
@@ -193,7 +192,7 @@ private ActivityNewYorkTimesBinding binding;
             case R.id.NasaItem:
                 // Go to Nasa activity
 
-                Intent nasaPage = new Intent(NewYorkTimes.this, NasaPhotos.class);
+                Intent nasaPage = new Intent(NewYorkTimes.this, NasaActivity.class);
                 startActivity(nasaPage);
 
                 break;
@@ -262,18 +261,19 @@ private ActivityNewYorkTimesBinding binding;
                         .setNegativeButton(cancel, (dialog, cl) -> {
                         })
                         .setPositiveButton(yes, (dialog, which) -> {
-
+                            String userInput=binding.editText.getText().toString();
+                            Articles topic = new Articles(userInput,false);
                             Executor thread = Executors.newSingleThreadExecutor();
                             thread.execute(() -> {
-                                mDAO.deleteMessage(clickMessage);});
-                                articles.remove(position);
+                                mDAO.deleteMessage(topic);
+                                articles.remove(position);});
                                     myAdapter.notifyItemRemoved(position); //update the recycleview
                                     Snackbar.make(messageText, deleted+position+1,Snackbar.LENGTH_LONG)
                                             .setAction(undo, click ->{
                                                 Executor thread2 = Executors.newSingleThreadExecutor();
                                                 thread2.execute(() -> {
-                                                    mDAO.insertMessage(clickMessage);});
-                                                    articles.add(position,clickMessage);
+                                                    mDAO.insertMessage(clickMessage);
+                                                    articles.add(position,clickMessage);});
                                                     runOnUiThread(()->{myAdapter.notifyItemInserted(position);});
                                                 });})
 

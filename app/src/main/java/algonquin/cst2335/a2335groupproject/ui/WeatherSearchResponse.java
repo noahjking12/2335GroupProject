@@ -7,7 +7,6 @@ import androidx.room.Room;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -41,13 +40,12 @@ import java.util.concurrent.Executors;
 import algonquin.cst2335.a2335groupproject.Forecast;
 import algonquin.cst2335.a2335groupproject.ForecastDAO;
 import algonquin.cst2335.a2335groupproject.ForecastDatabase;
-import algonquin.cst2335.a2335groupproject.NasaPhotos;
 import algonquin.cst2335.a2335groupproject.NewYorkTimes;
 import algonquin.cst2335.a2335groupproject.R;
 import algonquin.cst2335.a2335groupproject.SecondActivity;
 import algonquin.cst2335.a2335groupproject.data.WeatherActivityViewModel;
-import algonquin.cst2335.a2335groupproject.databinding.ActivityWeatherBinding;
 import algonquin.cst2335.a2335groupproject.databinding.ActivityWeatherSearchResponseBinding;
+import algonquin.cst2335.a2335groupproject.nasa.NasaActivity;
 
 /** Weather search results page
  * @author Noah King
@@ -297,7 +295,7 @@ public class WeatherSearchResponse extends AppCompatActivity {
 
             case R.id.nasa_bar_btn:
                 // Send user to Nasa photos app
-                Intent nasaPage = new Intent(WeatherSearchResponse.this, NasaPhotos.class);
+                Intent nasaPage = new Intent(WeatherSearchResponse.this, NasaActivity.class);
                 startActivity( nasaPage );
 
                 break;

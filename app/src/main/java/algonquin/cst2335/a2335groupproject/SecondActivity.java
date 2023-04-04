@@ -43,6 +43,7 @@ import algonquin.cst2335.a2335groupproject.data.CatListViewModel;
 import algonquin.cst2335.a2335groupproject.databinding.ActivitySecondBinding;
 import algonquin.cst2335.a2335groupproject.databinding.ImageListBinding;
 import algonquin.cst2335.a2335groupproject.kitten.CatList;
+import algonquin.cst2335.a2335groupproject.nasa.NasaActivity;
 import algonquin.cst2335.a2335groupproject.ui.WeatherActivity;
 
 /** Kitten PlaceHolder app front page
@@ -330,7 +331,7 @@ public class SecondActivity extends AppCompatActivity {
 
             case R.id.NasaItem:
                 // go to Nasa page
-                Intent nasaPge = new Intent(SecondActivity.this, NasaPhotos.class);
+                Intent nasaPge = new Intent(SecondActivity.this, NasaActivity.class);
                 startActivity(nasaPge);
 
                 break;

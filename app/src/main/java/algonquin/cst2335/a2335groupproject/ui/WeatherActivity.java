@@ -34,14 +34,13 @@ import algonquin.cst2335.a2335groupproject.Forecast;
 import algonquin.cst2335.a2335groupproject.ForecastDAO;
 import algonquin.cst2335.a2335groupproject.ForecastDatabase;
 import algonquin.cst2335.a2335groupproject.ForecastDetailsFragment;
-import algonquin.cst2335.a2335groupproject.MainActivity;
-import algonquin.cst2335.a2335groupproject.NasaPhotos;
 import algonquin.cst2335.a2335groupproject.NewYorkTimes;
 import algonquin.cst2335.a2335groupproject.R;
 import algonquin.cst2335.a2335groupproject.SecondActivity;
 import algonquin.cst2335.a2335groupproject.data.WeatherActivityViewModel;
 import algonquin.cst2335.a2335groupproject.databinding.ActivityWeatherBinding;
 import algonquin.cst2335.a2335groupproject.databinding.SavedForecastBinding;
+import algonquin.cst2335.a2335groupproject.nasa.NasaActivity;
 
 /** Weather app front page
  * @author Noah King
@@ -238,7 +237,7 @@ public class WeatherActivity extends AppCompatActivity {
 
             case R.id.nasa_bar_btn:
                 // Send user to Nasa photos app
-                Intent nasaPage = new Intent(WeatherActivity.this, NasaPhotos.class);
+                Intent nasaPage = new Intent(WeatherActivity.this, NasaActivity.class);
                 startActivity( nasaPage );
 
                 break;

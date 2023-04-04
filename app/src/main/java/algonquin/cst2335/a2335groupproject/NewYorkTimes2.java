@@ -43,6 +43,7 @@ import algonquin.cst2335.a2335groupproject.databinding.ActivityNewYorkTimesBindi
 import algonquin.cst2335.a2335groupproject.databinding.DetailsNytBinding;
 import algonquin.cst2335.a2335groupproject.databinding.NytRecycleBinding;
 import algonquin.cst2335.a2335groupproject.databinding.NytStoredHistoryBinding;
+import algonquin.cst2335.a2335groupproject.nasa.NasaActivity;
 import algonquin.cst2335.a2335groupproject.nyt.ArticleSource;
 import algonquin.cst2335.a2335groupproject.nyt.ArticleSourceDAO;
 import algonquin.cst2335.a2335groupproject.nyt.ArticleSourceDatabase;
@@ -252,7 +253,7 @@ public class NewYorkTimes2 extends AppCompatActivity {
             case R.id.NasaItem:
                 // Go to Nasa activity
 
-                Intent nasaPage = new Intent(NewYorkTimes2.this, NasaPhotos.class);
+                Intent nasaPage = new Intent(NewYorkTimes2.this, NasaActivity.class);
                 startActivity(nasaPage);
 
                 break;

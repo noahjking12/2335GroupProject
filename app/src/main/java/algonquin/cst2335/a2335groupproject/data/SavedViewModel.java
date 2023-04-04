@@ -1,0 +1,32 @@
+package algonquin.cst2335.a2335groupproject.data;
+
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+
+import java.util.ArrayList;
+
+import algonquin.cst2335.a2335groupproject.Picture;
+
+public class SavedViewModel extends ViewModel {
+    public MutableLiveData<ArrayList<Picture>> pictures = new MutableLiveData<ArrayList<Picture>>();
+
+    public void addPicture(Picture p) {
+        if (p != null) {
+            ArrayList<Picture> list = pictures.getValue();
+            if (list == null) {
+                list = new ArrayList<>();
+                pictures.setValue(list);
+            }
+            list.add(p);
+        }
+    }
+    public void removePicture(Picture p) {
+        if (p != null) {
+            ArrayList<Picture> list = pictures.getValue();
+            if (list != null) {
+                list.remove(p);
+                pictures.setValue(list);
+            }
+        }
+    }
+}

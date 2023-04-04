@@ -1,15 +1,20 @@
 package algonquin.cst2335.a2335groupproject.data;
 
+import android.graphics.Bitmap;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
-import algonquin.cst2335.a2335groupproject.Pictures;
+import algonquin.cst2335.a2335groupproject.Picture;
+
 
 public class SearchViewModel extends ViewModel {
-    public MutableLiveData<ArrayList<Pictures>> messages = new MutableLiveData< >();
+    public MutableLiveData<ArrayList<Picture>> pictures = new MutableLiveData<ArrayList<Picture>>();
 
-    public MutableLiveData<Pictures> selectMessage = new MutableLiveData<>();
+    public MutableLiveData<String> date = new MutableLiveData<>();
+
 
 }

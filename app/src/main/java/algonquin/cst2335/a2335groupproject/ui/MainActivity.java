@@ -8,12 +8,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import algonquin.cst2335.a2335groupproject.NasaPhotos;
 import algonquin.cst2335.a2335groupproject.NewYorkTimes;
 import algonquin.cst2335.a2335groupproject.R;
 import algonquin.cst2335.a2335groupproject.SecondActivity;
 import algonquin.cst2335.a2335groupproject.databinding.ActivityMainBinding;
-import algonquin.cst2335.a2335groupproject.ui.WeatherActivity;
+import algonquin.cst2335.a2335groupproject.nasa.NasaActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
 
         binding.NasaMarsRoverButton.setOnClickListener(clk ->{
-            Intent nasaPage = new Intent(MainActivity.this, NasaPhotos.class);
+            Intent nasaPage = new Intent(MainActivity.this, NasaActivity.class);
             startActivity(nasaPage);
         });
         binding.KittenPlaceholderButton.setOnClickListener(clk ->
@@ -61,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.NasaItem:
                 // Go to Nasa activity
 
-                Intent nasaPage = new Intent(MainActivity.this, NasaPhotos.class);
+                Intent nasaPage = new Intent(MainActivity.this, NasaActivity.class);
                 startActivity(nasaPage);
 
                 break;
