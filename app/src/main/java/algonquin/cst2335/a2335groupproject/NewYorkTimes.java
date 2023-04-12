@@ -52,7 +52,7 @@ private ActivityNewYorkTimesBinding binding;
 
     /**
      *
-     * @param savedInstanceState
+     * @param savedInstanceState saved Instance state
      */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -172,7 +172,7 @@ private ActivityNewYorkTimesBinding binding;
 
     /**
      *
-     * @param item
+     * @param item item
      * @return true
      */
     @Override

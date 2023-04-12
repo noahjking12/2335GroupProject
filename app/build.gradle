@@ -43,6 +43,7 @@ android.applicationVariants.all { variant ->
             options.addStringOption "-show-members", "package"
         }
     }}
+
 dependencies {
 
     implementation 'androidx.room:room-common:2.5.0'

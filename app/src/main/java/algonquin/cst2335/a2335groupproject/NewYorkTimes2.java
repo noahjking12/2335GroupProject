@@ -71,7 +71,7 @@ public class NewYorkTimes2 extends AppCompatActivity {
 
     /**
      *
-     * @param savedInstanceState
+     * @param savedInstanceState savedInstanceState
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -223,7 +223,7 @@ public class NewYorkTimes2 extends AppCompatActivity {
 
     /**
      *
-     * @param menu
+     * @param menu menu
      * @return true
      */
     @Override
@@ -235,7 +235,7 @@ public class NewYorkTimes2 extends AppCompatActivity {
 
     /**
      * set up toolbar function
-     * @param item
+     * @param item item
      * @return true
      */
     @Override

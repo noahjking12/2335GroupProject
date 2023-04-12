@@ -44,7 +44,7 @@ public class NasaPhotoFragment extends Fragment {
 
     /**
      * selected pic from th user
-     * @param picture
+     * @param picture picture
      */
     public NasaPhotoFragment(Picture picture) {
         this.selectedPicture = picture;
@@ -63,7 +63,7 @@ public class NasaPhotoFragment extends Fragment {
 
     /**
      *
-     * @param picture
+     * @param picture picture
      * @return new NasaPhotoFragment(picture)
      */
     public static NasaPhotoFragment newInstance(Picture picture) {

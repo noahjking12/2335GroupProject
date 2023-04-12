@@ -73,7 +73,7 @@ public class NasaActivity extends AppCompatActivity {
 
     /**
      * A Bundle object that contains the saved state of the activity before it was paused or destroyed.
-     * @param savedInstanceState
+     * @param savedInstanceState savedInstanceState
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -210,7 +210,6 @@ public class NasaActivity extends AppCompatActivity {
      * @param date The date to search for photos in the format of "YYYY-MM-DD".
      * @param callback The PhotosCallback object that will receive the loaded photos.
      *
-     * @return This method does not return anything.
      */
     public void startSearch(String date, PhotosCallback callback){
     ArrayList<Picture> photos = new ArrayList<>();

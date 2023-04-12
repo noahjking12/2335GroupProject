@@ -16,7 +16,7 @@ public class SavedViewModel extends ViewModel {
 
     /**
      *
-     * @param p
+     * @param p p
      */
     public void addPicture(Picture p) {
         if (p != null) {
@@ -31,7 +31,7 @@ public class SavedViewModel extends ViewModel {
 
     /**
      *
-     * @param p
+     * @param p p
      */
     public void removePicture(Picture p) {
         if (p != null) {

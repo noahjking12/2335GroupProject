@@ -33,7 +33,7 @@ public interface CatDAO {
 
     /**
      * delete a record from the CatList table
-     * @param cat
+     * @param cat cat
      */
     @Delete
     void deleteImages(CatList cat);
