@@ -39,8 +39,13 @@ public class NasaPhotoListFragment extends Fragment {
     }
 
 
-
-
+    /**
+     *
+     * @param type the type of the NASA photos to display ("s" for search results or "saved" for saved photos).
+     * @param fragmentManager the FragmentManager used to manage the fragments within the activity.
+     * @param viewModel the ViewModel that contains the list of NASA photos.
+     * @param photoViewModel  the NasaPhotoViewModel used to communicate between the fragments and the activity.
+     */
     public NasaPhotoListFragment(String type, FragmentManager fragmentManager, ViewModel viewModel, NasaPhotoViewModel photoViewModel ) {
         if(type == "s"){
             this.pictures = SearchViewModel.class.cast(viewModel).pictures.getValue();
@@ -56,6 +61,13 @@ public class NasaPhotoListFragment extends Fragment {
 
     }
 
+    /**
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment.
+     * @param container The parent view that the fragment's UI should be attached to.
+     * @param savedInstanceState This fragment is being re-constructed from a previous saved state as given here.
+     * @return the View for the fragment's UI, or null.
+     */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -77,7 +89,12 @@ public class NasaPhotoListFragment extends Fragment {
             this.fragmentManager = fragmentManager;
         }
 
-
+        /**
+         *
+         * @param parent
+         * @param viewType
+         * @return new NasaRowHolder(itemView)
+         */
 
         @NonNull
         @Override
@@ -89,6 +106,11 @@ public class NasaPhotoListFragment extends Fragment {
             return new NasaRowHolder(itemView);
         }
 
+        /**
+         *
+         * @param holder
+         * @param position
+         */
         @Override
         public void onBindViewHolder(@NonNull NasaRowHolder holder, int position) {
 
@@ -98,6 +120,10 @@ public class NasaPhotoListFragment extends Fragment {
 
         }
 
+        /**
+         *
+         * @return null
+         */
         @Override
         public int getItemCount() {
             return ps == null ? 0:ps.size();
@@ -112,6 +138,10 @@ public class NasaPhotoListFragment extends Fragment {
         ImageView imageView;
         TextView roverName;
 
+        /**
+         *
+         * @param v
+         */
         public void onClick(View v){
             int position = getAdapterPosition();
             Picture picture = pictures.get(position);

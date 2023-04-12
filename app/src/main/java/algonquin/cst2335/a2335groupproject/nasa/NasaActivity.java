@@ -1,4 +1,8 @@
 package algonquin.cst2335.a2335groupproject.nasa;
+/**
+ * @author Jinwei Li 040818950
+ * @version 1.0
+ */
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -67,6 +71,10 @@ public class NasaActivity extends AppCompatActivity {
 
     protected static PicturesDatabase db;
 
+    /**
+     * A Bundle object that contains the saved state of the activity before it was paused or destroyed.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +93,7 @@ public class NasaActivity extends AppCompatActivity {
         savedViewModel = new ViewModelProvider(this).get(SavedViewModel.class);
         photoViewModel = new ViewModelProvider(this).get(NasaPhotoViewModel.class);
 
-        /**
+        /** getter user input of search picture  and save search history to data
          * initial savedViewModel
          */
         if(savedViewModel.pictures.getValue() == null){
@@ -96,7 +104,7 @@ public class NasaActivity extends AppCompatActivity {
             });
 
         }
-        /**
+        /**getter input of user and search in data
          * initial searchViewModel
          */
         if(searchViewModel.pictures.getValue() == null){
@@ -157,6 +165,11 @@ public class NasaActivity extends AppCompatActivity {
 
 }
 
+    /**
+     *
+     * @param allPictures  provides functionality to load images for a list of pictures.
+     * @return (ArrayList<Picture>)allPictures
+     */
     private ArrayList<Picture> loadImages(List<Picture> allPictures) {
         try{
             for (int i = 0; i < allPictures.size(); i++){
@@ -180,6 +193,10 @@ public class NasaActivity extends AppCompatActivity {
         return (ArrayList<Picture>)allPictures;
     }
 
+    /**
+     *
+     * @param fragment
+     */
     private void loadFragment(Fragment fragment){
     FragmentManager fragmentManager = getSupportFragmentManager();
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -188,7 +205,14 @@ public class NasaActivity extends AppCompatActivity {
     fragmentTransaction.commit();
 }
 
-public void startSearch(String date, PhotosCallback callback){
+    /**
+     * search the date of the picture (from API)and call back
+     * @param date The date to search for photos in the format of "YYYY-MM-DD".
+     * @param callback The PhotosCallback object that will receive the loaded photos.
+     *
+     * @return This method does not return anything.
+     */
+    public void startSearch(String date, PhotosCallback callback){
     ArrayList<Picture> photos = new ArrayList<>();
     String url = "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol="+date+"&api_key=tFfFOWlhU9zByM04PJAcm56wpAdNsNXkwrQ0WSEg";
         try{
@@ -249,8 +273,6 @@ public void startSearch(String date, PhotosCallback callback){
 static String redirectUrl(String url){
       return url.replace("http://mars.jpl.nasa.gov/","https://mars.nasa.gov/");
 }
-
-
 
 
 

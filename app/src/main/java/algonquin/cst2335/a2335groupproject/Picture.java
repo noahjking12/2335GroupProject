@@ -14,6 +14,7 @@ import algonquin.cst2335.a2335groupproject.nasa.Photo;
 @Entity
 public class Picture implements Serializable {
 
+
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name="ID")
     private int id;
@@ -32,7 +33,12 @@ public class Picture implements Serializable {
     public Picture(){}
     @Ignore
     // Constructor
+    /**
+     *
+     */
     public Picture(int id, String imgSrc, String roverName, String cameraName) {
+
+
         this.id = id;
         this.imgSrc = imgSrc;
         this.roverName = roverName;
@@ -40,7 +46,13 @@ public class Picture implements Serializable {
     }
 
     // Getters and setters
+
+    /**
+     *
+     * @return id
+     */
     public int getId() {
+
         return id;
     }
 

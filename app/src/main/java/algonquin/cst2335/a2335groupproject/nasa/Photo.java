@@ -4,6 +4,10 @@ import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * @author Jinwei Li 040818950
+ * @version 1.0
+ */
 public class Photo implements Parcelable {
     public Bitmap getBitmap() {
 
@@ -22,6 +26,10 @@ public class Photo implements Parcelable {
 
     // Other fields and methods...
 
+    /**
+     *
+     * @return 0
+     */
     @Override
     public int describeContents() {
         return 0;

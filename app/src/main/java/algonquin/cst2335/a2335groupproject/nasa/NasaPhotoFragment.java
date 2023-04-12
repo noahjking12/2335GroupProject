@@ -1,5 +1,8 @@
 package algonquin.cst2335.a2335groupproject.nasa;
-
+/**
+ * @author Jinwei Li
+ * @version 1.0
+ */
 
 import androidx.appcompat.app.AlertDialog;
 
@@ -29,26 +32,53 @@ import algonquin.cst2335.a2335groupproject.data.PicturesDatabase;
 import algonquin.cst2335.a2335groupproject.data.SavedViewModel;
 import algonquin.cst2335.a2335groupproject.databinding.FragmentNasaPhotoBinding;
 
+
 public class NasaPhotoFragment extends Fragment {
     private String type;
     Picture selectedPicture = new Picture();
+
+
     public NasaPhotoFragment( ) {
 
     }
+
+    /**
+     * selected pic from th user
+     * @param picture
+     */
     public NasaPhotoFragment(Picture picture) {
         this.selectedPicture = picture;
         this.type = "searched";
     }
+
+    /**
+     *
+     * @param picture selected pic from th user
+     * @param type the type of the pic
+     */
     public NasaPhotoFragment(Picture picture, String type) {
         this.selectedPicture = picture;
         this.type = type;
     }
 
+    /**
+     *
+     * @param picture
+     * @return new NasaPhotoFragment(picture)
+     */
     public static NasaPhotoFragment newInstance(Picture picture) {
 
         return new NasaPhotoFragment(picture);
     }
 
+    /**
+     *
+     * @param inflater Inflates the layout for this fragment, and sets the picture details and options to save/delete the picture.
+     * @param container  If non-null, this is the parent view that the fragment's UI should be attached to. The fragment should
+     *                   not add the view itself, but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState  If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     * @return The root View of the fragment's layout
+     */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -117,6 +147,11 @@ public class NasaPhotoFragment extends Fragment {
         return binding.getRoot();
     }
 
+    /**
+     * Saves the selected picture's photo to a file
+     * with the format of JPG in the internal storage directory of the app.
+     * @param selectedPicture the picture to be saved to a file.
+     */
     private void savePhotoToFile(Picture selectedPicture) {
         int id = selectedPicture.getId();
         Bitmap image = selectedPicture.getPhoto().getBitmap();
