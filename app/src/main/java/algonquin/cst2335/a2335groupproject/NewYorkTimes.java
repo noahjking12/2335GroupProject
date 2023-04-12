@@ -256,29 +256,37 @@ private ActivityNewYorkTimesBinding binding;
                  * this alert dialog asks the user if they want to delete the searched history
                  */
                 AlertDialog.Builder builder = new AlertDialog.Builder(NewYorkTimes.this);
-                builder.setMessage(confirm + messageText.getText())
-                        .setTitle(question)
-                        .setNegativeButton(cancel, (dialog, cl) -> {
-                        })
-                        .setPositiveButton(yes, (dialog, which) -> {
-                            String userInput=binding.editText.getText().toString();
-                            Articles topic = new Articles(userInput,false);
-                            Executor thread = Executors.newSingleThreadExecutor();
-                            thread.execute(() -> {
-                                mDAO.deleteMessage(topic);
-                                articles.remove(position);});
-                                    myAdapter.notifyItemRemoved(position); //update the recycleview
-                                    Snackbar.make(messageText, deleted+position+1,Snackbar.LENGTH_LONG)
-                                            .setAction(undo, click ->{
-                                                Executor thread2 = Executors.newSingleThreadExecutor();
-                                                thread2.execute(() -> {
-                                                    mDAO.insertMessage(clickMessage);
-                                                    articles.add(position,clickMessage);});
-                                                    runOnUiThread(()->{myAdapter.notifyItemInserted(position);});
-                                                });})
 
-                        .create()
-                        .show();
+                    builder.setMessage(confirm + messageText.getText())
+                            .setTitle(question)
+                            .setPositiveButton(yes, (dialog, which) -> {
+
+                                Executor thread = Executors.newSingleThreadExecutor();
+                                thread.execute(() -> {
+                                    mDAO.deleteMessage(clickMessage);
+                                    articles.remove(position);
+
+                                    runOnUiThread(()->{
+                                        myAdapter.notifyItemRemoved(position); //update the recycleview
+                                        Snackbar.make(messageText, deleted+position+1,Snackbar.LENGTH_LONG)
+                                                .setAction(undo, click ->{
+                                                    Executor thread2 = Executors.newSingleThreadExecutor();
+                                                    thread2.execute(() -> {
+                                                        mDAO.insertMessage(clickMessage);
+                                                        articles.add(position,clickMessage);
+                                                        runOnUiThread(()->{myAdapter.notifyItemInserted(position);});
+                                                    });})
+                                                .show();
+
+                                    });
+
+                                });
+                            })
+
+                            .setNegativeButton(cancel, (dialog, cl) -> {
+                            })
+                            .create().show();
+
 
             });
 
